@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f1117">
+<link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAADwElEQVR4nO3dQW7bVhRAUVvoKgx4nJ0EyChr7ahA15FBl5NBgrpxbJniJR+p4pxZEFvf5rv4pKSEenx6/vQAa12O/gG4bwIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiL5Y/mX/v3Xn9e/4POXr+2HYc5W03x8ev5UlonLM2mPab4b0OrFFi7MpP2m+UZAmyz24cLM2HuavwS0+WJXFmZvM9N8eRa263oDj89/jU3z8en50/BobUW7Gp7m47dv/0yu94OGdjK/zR/zQqLT2R4OOaqHvRKtoW0ddTyPfCtDQ1s58Ejedg303rVL+QVcD0Wbv7580wMuei/swxn/+wU2lfPbdpof7EDrtodbM7IJrXbTod5jmteugVbP9dZvtG+tM1DPh9/49imsbwk/HkEZZ7DrNN/YgTY8oSx/KKndauER23uarwPa/HLE9c2BBqZ5on/SahNa7jzH6pdroJ12i89fvi7/hc9zaE5r4ZhmpvnyNH7vc40yJo1N80SnMO7Rz4AGLnVdTY+ZnKYdiERAJJeHwZOLs9iA4WnagUgERCIgEgGRCIhEQCQCIrk8DL7N6f3UAcPTtAORCIjkZ0AD+57z15jJadqBSIZuMGX7GTY2zct7f7HTetd5u36JhUdpZpo33Cd6hobuy+troM2ztf3s4ahN6PcHfOMiesNVXfocbu9pXrs7R9kS3KBjwMzNFa4vdO1p/Op4bTwntNM0F92hbO97JNh+VltxwLedplvc3b07uMXduofm5DaZ5sFvZdh+umOP4ZEBqWcrBx7JwwJSz7aOOp7HBKSePRxyVC/zq6pnP/PH9uUD5waeYUlnzNg0L6/+vPd6zBibps9M/Z8b/czUzReWzkmMfmrzJgtL54RGPzd+xfKiuSNbTfOGgOB3/lsPiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERDJd2FRLZMMGn2DAAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" sizes="192x192" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAADwElEQVR4nO3dQW7bVhRAUVvoKgx4nJ0EyChr7ahA15FBl5NBgrpxbJniJR+p4pxZEFvf5rv4pKSEenx6/vQAa12O/gG4bwIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiL5Y/mX/v3Xn9e/4POXr+2HYc5W03x8ev5UlonLM2mPab4b0OrFFi7MpP2m+UZAmyz24cLM2HuavwS0+WJXFmZvM9N8eRa263oDj89/jU3z8en50/BobUW7Gp7m47dv/0yu94OGdjK/zR/zQqLT2R4OOaqHvRKtoW0ddTyPfCtDQ1s58Ejedg303rVL+QVcD0Wbv7580wMuei/swxn/+wU2lfPbdpof7EDrtodbM7IJrXbTod5jmteugVbP9dZvtG+tM1DPh9/49imsbwk/HkEZZ7DrNN/YgTY8oSx/KKndauER23uarwPa/HLE9c2BBqZ5on/SahNa7jzH6pdroJ12i89fvi7/hc9zaE5r4ZhmpvnyNH7vc40yJo1N80SnMO7Rz4AGLnVdTY+ZnKYdiERAJJeHwZOLs9iA4WnagUgERCIgEgGRCIhEQCQCIrk8DL7N6f3UAcPTtAORCIjkZ0AD+57z15jJadqBSIZuMGX7GTY2zct7f7HTetd5u36JhUdpZpo33Cd6hobuy+troM2ztf3s4ahN6PcHfOMiesNVXfocbu9pXrs7R9kS3KBjwMzNFa4vdO1p/Op4bTwntNM0F92hbO97JNh+VltxwLedplvc3b07uMXduofm5DaZ5sFvZdh+umOP4ZEBqWcrBx7JwwJSz7aOOp7HBKSePRxyVC/zq6pnP/PH9uUD5waeYUlnzNg0L6/+vPd6zBibps9M/Z8b/czUzReWzkmMfmrzJgtL54RGPzd+xfKiuSNbTfOGgOB3/lsPiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERDJd2FRLZMMGn2DAAAAAElFTkSuQmCC">
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUFQgUmVjb3ZlcnkgVHJhY2tlciIsInNob3J0X25hbWUiOiJQVCBUcmFja2VyIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBmMTExNyIsInRoZW1lX2NvbG9yIjoiIzBmMTExNyIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQU1BQUFBREFDQU1BQUFCZlVNTnNBQUFBQUVsRlRrU3VRbUNDIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3BuZyJ9XX0=">
+<title>PT Recovery Tracker</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card-border: #2a2d3a;
+    --accent: #6c8cff;
+    --accent-dim: rgba(108,140,255,0.15);
+    --green: #4ade80;
+    --green-dim: rgba(74,222,128,0.15);
+    --yellow: #fbbf24;
+    --yellow-dim: rgba(251,191,36,0.15);
+    --red: #f87171;
+    --red-dim: rgba(248,113,113,0.15);
+    --text: #e4e4e7;
+    --text-dim: #71717a;
+    --text-mid: #a1a1aa;
+    --orange: #fb923c;
+    --orange-dim: rgba(251,146,60,0.15);
+    --pink: #f472b6;
+    --pink-dim: rgba(244,114,182,0.15);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; padding-bottom: 100px;
+  }
+  .header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,17,23,0.92);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  .header .subtitle { font-size: 13px; color: var(--text-dim); margin-top: 2px; }
+  .date-row { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+  .date-display { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .day-label { font-size: 12px; color: var(--orange); font-weight: 700; background: var(--orange-dim); padding: 3px 10px; border-radius: 6px; }
+
+  .nav-tabs {
+    display: flex; background: var(--card);
+    margin: 16px 16px 0; border-radius: 12px;
+    padding: 4px; border: 1px solid var(--card-border);
+  }
+  .nav-tab {
+    flex: 1; text-align: center; padding: 10px 8px;
+    font-size: 13px; font-weight: 600;
+    border-radius: 9px; border: none;
+    background: transparent; color: var(--text-dim);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .nav-tab.active { background: var(--accent); color: #fff; }
+  .section { display: none; padding: 16px; }
+  .section.active { display: block; }
+  .card {
+    background: var(--card); border: 1px solid var(--card-border);
+    border-radius: 14px; padding: 16px; margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 15px; font-weight: 700; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-title .icon { font-size: 18px; }
+
+  /* Section divider within exercise list */
+  .section-divider {
+    padding: 10px 0 6px;
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-divider::after { content:''; flex:1; height:1px; background:var(--card-border); }
+  .divider-warmup { color: var(--pink); }
+  .divider-pt { color: var(--accent); }
+
+  /* Exercise rows */
+  .exercise-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: opacity 0.3s;
+  }
+  .exercise-row:last-child { border-bottom: none; }
+  .exercise-row.completed { opacity: 0.4; }
+  .exercise-row.completed .ex-name { text-decoration: line-through; }
+
+  .ex-illus {
+    width: 56px; height: 56px; flex-shrink: 0;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .ex-illus svg { width: 44px; height: 44px; }
+  .ex-illus a { display: flex; }
+  .ex-illus-lower { background: rgba(168,85,247,0.1); }
+  .ex-illus-core { background: rgba(74,222,128,0.1); }
+  .ex-illus-pull { background: rgba(56,189,248,0.1); }
+  .ex-illus-push { background: rgba(251,146,60,0.1); }
+  .ex-illus-warmup { background: var(--pink-dim); }
+
+  .ex-mid { flex: 1; min-width: 0; }
+  .ex-top-row { display: flex; align-items: center; gap: 6px; }
+  .ex-check {
+    width: 26px; height: 26px; flex-shrink: 0;
+    border-radius: 50%; border: 2px solid var(--card-border);
+    background: transparent; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: transparent; transition: all 0.2s;
+  }
+  .ex-check.checked { background: var(--green); border-color: var(--green); color: #fff; }
+  .ex-name { font-size: 14px; font-weight: 600; line-height: 1.3; }
+  .ex-meta { font-size: 12px; color: var(--text-dim); margin-top: 3px; }
+  .ex-note { font-size: 11px; color: var(--text-dim); margin-top: 2px; line-height: 1.3; }
+  .ex-links { display: flex; gap: 6px; margin-top: 5px; flex-wrap: wrap; align-items: center; }
+  .ex-link {
+    font-size: 11px; color: var(--accent); text-decoration: none;
+    background: var(--accent-dim); padding: 3px 8px; border-radius: 5px;
+    font-weight: 600; display: inline-flex; align-items: center; gap: 3px;
+  }
+  .ex-link-pink { color: var(--pink); background: var(--pink-dim); }
+  .ex-category {
+    font-size: 10px; font-weight: 600; padding: 2px 6px;
+    border-radius: 4px; display: inline-block;
+  }
+  .cat-lower { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .cat-pull { background: rgba(56,189,248,0.15); color: #38bdf8; }
+  .cat-push { background: rgba(251,146,60,0.15); color: #fb923c; }
+  .cat-core { background: rgba(74,222,128,0.15); color: #4ade80; }
+  .cat-warmup { background: var(--pink-dim); color: var(--pink); }
+
+  .ex-flag {
+    width: 32px; height: 32px; border-radius: 8px;
+    border: 1px solid var(--card-border); background: transparent;
+    cursor: pointer; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0; margin-top: 12px;
+  }
+  .ex-flag.flagged { background: var(--red-dim); border-color: var(--red); }
+
+  .safety-banner {
+    background: var(--red-dim); border: 1px solid rgba(248,113,113,0.3);
+    border-radius: 10px; padding: 12px 14px;
+    font-size: 12px; color: var(--red); line-height: 1.5;
+    margin-bottom: 12px; display: flex; gap: 8px; align-items: flex-start;
+  }
+  .safety-banner .sicon { font-size: 16px; flex-shrink: 0; }
+  .progress-wrap { margin-bottom: 16px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-dim); margin-bottom: 6px; }
+  .progress-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.4s ease; }
+  .rotation-info {
+    background: var(--accent-dim); border: 1px solid rgba(108,140,255,0.25);
+    border-radius: 10px; padding: 12px 14px;
+    font-size: 12px; color: var(--accent); line-height: 1.5; margin-bottom: 12px;
+  }
+  .energy-row { display: flex; gap: 8px; margin-top: 10px; }
+  .energy-btn {
+    flex: 1; padding: 10px 4px; border-radius: 8px;
+    border: 1px solid var(--card-border);
+    background: transparent; color: var(--text-dim);
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; text-align: center;
+  }
+  .energy-btn.selected { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); }
+  .finish-btn {
+    width: 100%; padding: 16px; border-radius: 12px; border: none;
+    background: var(--green); color: #000; font-size: 16px; font-weight: 700;
+    cursor: pointer; margin-top: 16px; transition: all 0.2s;
+  }
+  .rest-suggestion {
+    background: var(--yellow-dim); border: 1px solid rgba(251,191,36,0.3);
+    border-radius: 10px; padding: 12px 14px;
+    font-size: 13px; color: var(--yellow);
+    display: none; margin-bottom: 12px; line-height: 1.5;
+  }
+  .notes-area {
+    width: 100%; min-height: 80px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--card-border); border-radius: 10px; padding: 12px;
+    color: var(--text); font-size: 14px; font-family: inherit; resize: vertical;
+  }
+  .notes-area::placeholder { color: var(--text-dim); }
+
+  /* History */
+  .history-item { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .history-top { display: flex; justify-content: space-between; align-items: center; }
+  .history-date { font-size: 14px; font-weight: 600; }
+  .history-meta { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+  .history-exercises { font-size: 11px; color: var(--text-mid); margin-top: 4px; line-height: 1.4; }
+  .history-badge { padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .badge-complete { background: var(--green-dim); color: var(--green); }
+  .badge-partial { background: var(--yellow-dim); color: var(--yellow); }
+  .badge-flagged { background: var(--red-dim); color: var(--red); }
+  .streak-card {
+    text-align: center; padding: 20px;
+    background: linear-gradient(135deg, #1e2333, #1a1d27);
+    border: 1px solid rgba(108,140,255,0.25);
+  }
+  .streak-number { font-size: 48px; font-weight: 800; color: var(--accent); }
+  .streak-label { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+  .stats-row { display: flex; gap: 12px; margin-top: 16px; }
+  .stat-box { flex: 1; text-align: center; padding: 14px 8px; background: var(--card); border: 1px solid var(--card-border); border-radius: 10px; }
+  .stat-val { font-size: 22px; font-weight: 800; }
+  .stat-label { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+  .cov-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px; }
+  .cov-item { font-size: 11px; padding: 6px 8px; border-radius: 6px; background: rgba(255,255,255,0.04); display: flex; justify-content: space-between; }
+  .cov-item .check { color: var(--green); font-weight: 700; }
+  .cov-item .miss { color: var(--text-dim); }
+
+  /* Modal */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+    align-items: flex-end; justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-sheet {
+    background: var(--card); border-radius: 20px 20px 0 0;
+    padding: 24px 20px 40px; width: 100%; max-width: 500px;
+  }
+  .modal-handle { width: 36px; height: 4px; background: var(--card-border); border-radius: 2px; margin: 0 auto 20px; }
+  .modal-title { font-size: 17px; font-weight: 700; margin-bottom: 16px; }
+  .pain-scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 16px; }
+  .pain-btn {
+    padding: 12px 4px; border-radius: 10px;
+    border: 1px solid var(--card-border); background: transparent;
+    color: var(--text); font-size: 13px; font-weight: 600;
+    cursor: pointer; text-align: center; transition: all 0.2s;
+  }
+  .pain-btn.selected { border-color: var(--red); background: var(--red-dim); color: var(--red); }
+  .modal-actions { display: flex; gap: 8px; margin-top: 8px; }
+  .modal-actions button { flex: 1; padding: 14px; border-radius: 10px; border: none; font-size: 15px; font-weight: 700; cursor: pointer; }
+  .btn-cancel { background: rgba(255,255,255,0.08); color: var(--text); }
+  .btn-confirm { background: var(--red); color: #fff; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--text-dim); }
+  .clear-btn {
+    display: block; margin: 20px auto 0; padding: 10px 24px;
+    border-radius: 8px; border: 1px solid var(--card-border);
+    background: transparent; color: var(--text-dim); font-size: 13px; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>PT Recovery Tracker</h1>
+  <div class="subtitle">Lower Back Rehab Program</div>
+  <div class="date-row">
+    <div class="date-display" id="dateDisplay"></div>
+    <div class="day-label" id="dayLabel"></div>
+  </div>
+</div>
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('workout')">Workout</button>
+  <button class="nav-tab" onclick="switchTab('history')">History</button>
+</div>
+
+<div class="section active" id="tab-workout">
+  <div class="rest-suggestion" id="restSuggestion">
+    <strong>Rest day recommended.</strong> You've trained 3+ days in a row. Recovery is when your body adapts — consider a light walk or gentle stretching today.
+  </div>
+  <div class="safety-banner">
+    <span class="sicon">&#x26A0;&#xFE0F;</span>
+    <span><strong>Spine safety first.</strong> Maintain neutral spine on every rep. Tap the flag if any exercise causes pain — never push through it.</span>
+  </div>
+  <div class="rotation-info" id="rotationInfo"></div>
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Today's Session</span>
+      <span id="progressText">0 / 17</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+  <div class="card" id="exerciseList"></div>
+  <div class="card">
+    <div class="card-title"><span class="icon">&#x26A1;</span> Energy Level</div>
+    <div class="energy-row">
+      <button class="energy-btn" onclick="setEnergy(1,this)">&#x1F634;<br>Low</button>
+      <button class="energy-btn" onclick="setEnergy(2,this)">&#x1F610;<br>OK</button>
+      <button class="energy-btn" onclick="setEnergy(3,this)">&#x1F4AA;<br>Good</button>
+      <button class="energy-btn" onclick="setEnergy(4,this)">&#x1F525;<br>Great</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">&#x1F4DD;</span> Session Notes</div>
+    <textarea class="notes-area" id="sessionNotes" placeholder="How did it feel? Any tightness, soreness, or wins?"></textarea>
+  </div>
+  <button class="finish-btn" onclick="finishSession()">Complete Session</button>
+</div>
+
+<div class="section" id="tab-history">
+  <div class="card streak-card">
+    <div class="streak-number" id="streakNum">0</div>
+    <div class="streak-label">Day Streak</div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-val" id="totalSessions">0</div><div class="stat-label">Sessions</div></div>
+      <div class="stat-box"><div class="stat-val" id="avgCompletion">0%</div><div class="stat-label">Avg Done</div></div>
+      <div class="stat-box"><div class="stat-val" id="flagCount">0</div><div class="stat-label">Pain Flags</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">&#x1F4CA;</span> Exercise Coverage (Last 4 Sessions)</div>
+    <div class="cov-grid" id="coverageGrid"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="icon">&#x1F4C5;</span> Past Sessions</div>
+    <div id="historyList"></div>
+  </div>
+  <button class="clear-btn" onclick="clearHistory()">Clear All History</button>
+</div>
+
+<div class="modal-overlay" id="painModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">&#x26A0;&#xFE0F; Log Pain — <span id="painExName"></span></div>
+    <p style="font-size:13px;color:var(--text-mid);margin-bottom:14px;">Rate the pain. This will be flagged for your PT.</p>
+    <div class="pain-scale" id="painScale"></div>
+    <textarea class="notes-area" id="painNotes" placeholder="Where exactly? Sharp or dull? During which part of the movement?" style="min-height:60px;margin-bottom:8px;"></textarea>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closePainModal()">Cancel</button>
+      <button class="btn-confirm" onclick="savePainFlag()">Flag Exercise</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const RT_PDF = "https://www.japansociety.org.uk/usercontent/833460cae3b1d64d3ac78edb37286e93/Radio-Taiso-Movements-Card.pdf";
+
+function svgWrap(inner, accent) {
+  return '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><style>.b{fill:none;stroke:#d4d4d8;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.h{fill:#d4d4d8}.a{fill:none;stroke:'+accent+';stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:3,2}</style></defs>'+inner+'</svg>';
+}
+
+// Radio Taiso SVGs (pink accent)
+const P = '#f472b6';
+const RT_SVG = [
+  svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="30"/><line class="b" x1="24" y1="30" x2="18" y2="42"/><line class="b" x1="24" y1="30" x2="30" y2="42"/><line class="b" x1="24" y1="18" x2="16" y2="6"/><line class="b" x1="24" y1="18" x2="32" y2="6"/>',P),
+  svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="28"/><line class="b" x1="24" y1="28" x2="18" y2="38"/><line class="b" x1="18" y1="38" x2="18" y2="44"/><line class="b" x1="24" y1="28" x2="30" y2="38"/><line class="b" x1="30" y1="38" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="14" y2="16"/><line class="b" x1="24" y1="20" x2="34" y2="16"/>',P),
+  svgWrap('<circle class="h" cx="24" cy="12" r="4"/><line class="b" x1="24" y1="16" x2="24" y2="32"/><line class="b" x1="24" y1="32" x2="18" y2="44"/><line class="b" x1="24" y1="32" x2="30" y2="44"/><circle class="a" cx="14" cy="22" r="8"/><circle class="a" cx="34" cy="22" r="8"/>',P),
+  svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="30"/><line class="b" x1="24" y1="30" x2="18" y2="44"/><line class="b" x1="24" y1="30" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="8" y2="18"/><line class="b" x1="24" y1="20" x2="40" y2="18"/><path class="a" d="M8,18 L4,14 M40,18 L44,14"/>',P),
+  svgWrap('<circle class="h" cx="20" cy="10" r="4"/><path class="b" d="M20,14 Q20,24 28,30"/><line class="b" x1="28" y1="30" x2="22" y2="44"/><line class="b" x1="28" y1="30" x2="34" y2="44"/><line class="b" x1="20" y1="18" x2="12" y2="26"/><path class="b" d="M20,18 Q24,12 36,6"/>',P),
+  svgWrap('<circle class="h" cx="14" cy="18" r="4"/><path class="b" d="M16,22 L30,22"/><line class="b" x1="30" y1="22" x2="34" y2="44"/><line class="b" x1="30" y1="22" x2="26" y2="44"/><line class="b" x1="16" y1="22" x2="10" y2="34"/><line class="b" x1="16" y1="22" x2="6" y2="28"/>',P),
+  svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="30"/><line class="b" x1="24" y1="30" x2="18" y2="44"/><line class="b" x1="24" y1="30" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="12" y2="24"/><line class="b" x1="24" y1="20" x2="36" y2="16"/><path class="a" d="M18,26 C14,22 14,18 18,14 M30,26 C34,22 34,18 30,14"/>',P),
+  svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="30"/><line class="b" x1="24" y1="30" x2="18" y2="44"/><line class="b" x1="24" y1="30" x2="30" y2="44"/><line class="b" x1="24" y1="18" x2="16" y2="6"/><line class="b" x1="24" y1="18" x2="32" y2="30"/>',P),
+  svgWrap('<circle class="h" cx="20" cy="10" r="4"/><path class="b" d="M20,14 L24,28"/><line class="b" x1="24" y1="28" x2="16" y2="44"/><line class="b" x1="24" y1="28" x2="32" y2="44"/><line class="b" x1="20" y1="18" x2="10" y2="28"/><line class="b" x1="20" y1="18" x2="34" y2="12"/><path class="a" d="M32,44 L38,44"/>',P),
+  svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="30"/><line class="b" x1="24" y1="30" x2="18" y2="44"/><line class="b" x1="24" y1="30" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="14" y2="20"/><line class="b" x1="24" y1="20" x2="34" y2="20"/><ellipse class="a" cx="24" cy="26" rx="12" ry="4"/>',P),
+  svgWrap('<circle class="h" cx="24" cy="8" r="4"/><line class="b" x1="24" y1="12" x2="24" y2="26"/><line class="b" x1="24" y1="26" x2="16" y2="38"/><line class="b" x1="24" y1="26" x2="32" y2="38"/><line class="b" x1="24" y1="18" x2="14" y2="12"/><line class="b" x1="24" y1="18" x2="34" y2="12"/><path class="a" d="M14,42 L18,38 M30,42 L34,38"/>',P),
+  svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="28"/><line class="b" x1="24" y1="28" x2="18" y2="38"/><line class="b" x1="18" y1="38" x2="18" y2="44"/><line class="b" x1="24" y1="28" x2="30" y2="38"/><line class="b" x1="30" y1="38" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="14" y2="16"/><line class="b" x1="24" y1="20" x2="34" y2="16"/>',P),
+  svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="32"/><line class="b" x1="24" y1="32" x2="18" y2="44"/><line class="b" x1="24" y1="32" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="16" y2="26"/><line class="b" x1="24" y1="20" x2="32" y2="26"/><path class="a" d="M18,14 Q12,10 18,6 M30,14 Q36,10 30,6"/>',P),
+];
+
+// PT SVGs
+const PT_SVG = {
+  rdl: svgWrap('<circle class="h" cx="18" cy="14" r="4"/><path class="b" d="M18,18 L26,26"/><line class="b" x1="26" y1="26" x2="22" y2="44"/><line class="b" x1="26" y1="26" x2="30" y2="44"/><line class="b" x1="20" y1="22" x2="12" y2="32"/><line class="b" x1="20" y1="22" x2="16" y2="32"/><rect x="10" y="32" width="8" height="3" rx="1" fill="#c084fc" opacity="0.5"/>','#c084fc'),
+  goblet: svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="26"/><line class="b" x1="24" y1="26" x2="16" y2="36"/><line class="b" x1="16" y1="36" x2="16" y2="44"/><line class="b" x1="24" y1="26" x2="32" y2="36"/><line class="b" x1="32" y1="36" x2="32" y2="44"/><line class="b" x1="24" y1="18" x2="20" y2="14"/><line class="b" x1="24" y1="18" x2="28" y2="14"/><circle cx="24" cy="13" r="3" fill="none" stroke="#c084fc" stroke-width="1.5"/>','#c084fc'),
+  sidestep: svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="28"/><line class="b" x1="24" y1="28" x2="14" y2="40"/><line class="b" x1="14" y1="40" x2="10" y2="44"/><line class="b" x1="24" y1="28" x2="34" y2="40"/><line class="b" x1="34" y1="40" x2="38" y2="44"/><line class="b" x1="24" y1="20" x2="18" y2="24"/><line class="b" x1="24" y1="20" x2="30" y2="24"/><ellipse cx="24" cy="38" rx="12" ry="2" fill="none" stroke="#c084fc" stroke-width="1.5"/>','#c084fc'),
+  clamshell: svgWrap('<circle class="h" cx="36" cy="20" r="4"/><path class="b" d="M32,20 L12,20"/><line class="b" x1="12" y1="20" x2="8" y2="32"/><line class="b" x1="12" y1="20" x2="14" y2="32"/><line class="b" x1="32" y1="20" x2="36" y2="14"/><line class="b" x1="32" y1="20" x2="38" y2="28"/><path class="a" d="M14,32 Q18,22 8,32"/>','#c084fc'),
+  bridge: svgWrap('<path class="b" d="M8,32 L16,32 L16,26 Q24,18 32,26 L32,32 L40,32"/><line class="b" x1="20" y1="24" x2="20" y2="20"/><line class="b" x1="28" y1="24" x2="28" y2="20"/><circle class="h" cx="38" cy="28" r="3"/><path class="a" d="M24,18 L24,12"/>','#4ade80'),
+  toetaps: svgWrap('<circle class="h" cx="10" cy="24" r="3"/><path class="b" d="M13,24 L30,24"/><line class="b" x1="30" y1="24" x2="30" y2="14"/><line class="b" x1="30" y1="14" x2="36" y2="14"/><line class="b" x1="30" y1="24" x2="30" y2="34"/><line class="b" x1="30" y1="34" x2="36" y2="34"/><path class="a" d="M36,34 L36,40"/><line class="b" x1="13" y1="24" x2="8" y2="18"/><line class="b" x1="13" y1="24" x2="8" y2="30"/>','#4ade80'),
+  wallangels: svgWrap('<rect x="36" y="4" width="3" height="40" rx="1" fill="#4ade80" opacity="0.2"/><circle class="h" cx="32" cy="10" r="4"/><line class="b" x1="32" y1="14" x2="32" y2="32"/><line class="b" x1="32" y1="32" x2="28" y2="44"/><line class="b" x1="32" y1="32" x2="36" y2="44"/><line class="b" x1="32" y1="20" x2="36" y2="10"/><line class="b" x1="36" y1="10" x2="34" y2="4"/><line class="b" x1="32" y1="20" x2="36" y2="26"/>','#4ade80'),
+  row: svgWrap('<circle class="h" cx="20" cy="14" r="4"/><path class="b" d="M20,18 L28,28"/><line class="b" x1="28" y1="28" x2="24" y2="44"/><line class="b" x1="28" y1="28" x2="32" y2="44"/><line class="b" x1="22" y1="22" x2="10" y2="20"/><path class="b" d="M22,22 L18,18"/><rect x="6" y="18" width="6" height="3" rx="1" fill="#38bdf8" opacity="0.5"/>','#38bdf8'),
+  latpull: svgWrap('<circle class="h" cx="24" cy="12" r="4"/><line class="b" x1="24" y1="16" x2="24" y2="30"/><line class="b" x1="24" y1="30" x2="18" y2="44"/><line class="b" x1="24" y1="30" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="14" y2="14"/><line class="b" x1="24" y1="20" x2="34" y2="14"/><line x1="14" y1="4" x2="14" y2="14" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/><line x1="34" y1="4" x2="34" y2="14" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/><line x1="10" y1="4" x2="38" y2="4" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>','#38bdf8'),
+  seatedrow: svgWrap('<circle class="h" cx="20" cy="12" r="4"/><line class="b" x1="20" y1="16" x2="20" y2="28"/><line class="b" x1="20" y1="28" x2="16" y2="36"/><line class="b" x1="16" y1="36" x2="24" y2="36"/><line class="b" x1="20" y1="28" x2="24" y2="36"/><line class="b" x1="20" y1="20" x2="12" y2="18"/><line class="b" x1="20" y1="20" x2="14" y2="16"/><line x1="38" y1="18" x2="14" y2="18" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="2,2"/><rect x="38" y="10" width="4" height="24" rx="1" fill="#38bdf8" opacity="0.3"/>','#38bdf8'),
+  bicepcurl: svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="30"/><line class="b" x1="24" y1="30" x2="18" y2="44"/><line class="b" x1="24" y1="30" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="18" y2="24"/><line class="b" x1="18" y1="24" x2="18" y2="16"/><line class="b" x1="24" y1="20" x2="30" y2="24"/><rect x="16" y="14" width="4" height="3" rx="1" fill="#38bdf8" opacity="0.5"/><rect x="28" y="22" width="4" height="3" rx="1" fill="#38bdf8" opacity="0.5"/>','#38bdf8'),
+  chestpress: svgWrap('<circle class="h" cx="24" cy="24" r="4"/><line class="b" x1="24" y1="28" x2="24" y2="38"/><path class="b" d="M10,44 L38,44 L38,38 L10,38 Z" fill="none"/><line class="b" x1="24" y1="38" x2="18" y2="44"/><line class="b" x1="24" y1="38" x2="30" y2="44"/><line class="b" x1="24" y1="30" x2="14" y2="20"/><line class="b" x1="24" y1="30" x2="34" y2="20"/><rect x="10" y="18" width="8" height="3" rx="1" fill="#fb923c" opacity="0.5"/><rect x="30" y="18" width="8" height="3" rx="1" fill="#fb923c" opacity="0.5"/>','#fb923c'),
+  shoulderflex: svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="30"/><line class="b" x1="24" y1="30" x2="18" y2="44"/><line class="b" x1="24" y1="30" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="18" y2="8"/><line class="b" x1="24" y1="20" x2="30" y2="26"/><path class="a" d="M18,8 L16,4 M18,8 L20,4"/>','#fb923c'),
+  tricep: svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="30"/><line class="b" x1="24" y1="30" x2="18" y2="44"/><line class="b" x1="24" y1="30" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="18" y2="20"/><line class="b" x1="18" y1="20" x2="18" y2="30"/><line class="b" x1="24" y1="20" x2="30" y2="20"/><line class="b" x1="30" y1="20" x2="30" y2="30"/><path class="a" d="M18,30 L18,34 M30,30 L30,34"/>','#fb923c'),
+  extrot: svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="30"/><line class="b" x1="24" y1="30" x2="18" y2="44"/><line class="b" x1="24" y1="30" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="20" y2="24"/><line class="b" x1="20" y1="24" x2="12" y2="24"/><line class="b" x1="24" y1="20" x2="28" y2="24"/><line class="b" x1="28" y1="24" x2="36" y2="20"/><path class="a" d="M32,24 Q38,22 36,20"/>','#fb923c'),
+  horizabd: svgWrap('<circle class="h" cx="24" cy="10" r="4"/><line class="b" x1="24" y1="14" x2="24" y2="30"/><line class="b" x1="24" y1="30" x2="18" y2="44"/><line class="b" x1="24" y1="30" x2="30" y2="44"/><line class="b" x1="24" y1="20" x2="8" y2="20"/><line class="b" x1="24" y1="20" x2="40" y2="20"/><path class="a" d="M8,20 L4,18 M40,20 L44,18"/>','#fb923c'),
+};
+
+// ── Data ──
+const RADIO_TAISO = [
+  { name:"Stretch Up High", jp:"背伸びの運動", desc:"Raise both arms overhead, lower out to sides. ×2." },
+  { name:"Arms & Legs Bend", jp:"腕を振って脚の曲げ伸ばし", desc:"Swing arms out while doing a light squat. ×8." },
+  { name:"Arm Circles", jp:"腕を回す運動", desc:"Full arm circles forward ×4, then reverse ×4." },
+  { name:"Chest Stretches", jp:"胸をそらす運動", desc:"Swing arms to shoulder level, pull back opening chest. ×4." },
+  { name:"Side Stretches", jp:"体を横に曲げる運動", desc:"Reach overhead, bend sideways. Gentle bounce ×2 each side." },
+  { name:"Forward & Back Bends", jp:"体を前後に曲げる運動", desc:"Bend forward, bounce ×3. Stand, gentle lean back. ×2. Easy on the back bend." },
+  { name:"Body Twists", jp:"体をねじる運動", desc:"Twist torso L/R ×4, then 2 bigger twists each direction." },
+  { name:"Arm Thrusting", jp:"腕を上下に伸ばす運動", desc:"Thrust arms up and down with energy. Activates upper body." },
+  { name:"Stepping & Arm Swing", jp:"体を斜め下に曲げる運動", desc:"Step to side, bend diagonally down reaching across. Alternate." },
+  { name:"Full Body Turn", jp:"体を回す運動", desc:"Circle upper body — forward, side, back, around. ×2 each direction. Slowly." },
+  { name:"Jumping / Bouncing", jp:"両足で跳ぶ運動", desc:"Light bouncing in place ~15 sec. Small hops are fine." },
+  { name:"Arms & Legs Again", jp:"腕を振って脚の曲げ伸ばし", desc:"Repeat #2 — arm swings with light squats. Cool-down." },
+  { name:"Deep Breathing", jp:"深呼吸", desc:"Raise arms inhaling. Lower arms exhaling. ×3. Relax." },
+];
+
+const ALL_PT = [
+  { name:"Romanian Deadlift with Bar", sets:3, reps:10, note:"Hinge at hips, soft knees, bar close to legs. Keep lumbar neutral.", cat:"lower", svg:"rdl", video:"https://www.youtube.com/results?search_query=romanian+deadlift+barbell+form+physical+therapy", guide:"https://exrx.net/WeightExercises/GluteusMaximus/BBRomanianDeadlift" },
+  { name:"Goblet Squat with Kettlebell", sets:3, reps:10, note:"Chest up, weight in heels, knees track over toes.", cat:"lower", svg:"goblet", video:"https://www.youtube.com/results?search_query=goblet+squat+kettlebell+proper+form", guide:"https://exrx.net/WeightExercises/Quadriceps/DBGobletSquat" },
+  { name:"Side Stepping with Band", sets:3, reps:10, note:"Band above knees or ankles. Stay low, don't let knees cave.", cat:"lower", svg:"sidestep", video:"https://www.youtube.com/results?search_query=lateral+band+walk+side+stepping+resistance+band", guide:"https://exrx.net/WeightExercises/HipAbductor/BWSideStepResistanceBand" },
+  { name:"Clamshell with Resistance", sets:3, reps:10, note:"Side-lying, feet together. Open top knee, don't roll pelvis.", cat:"lower", svg:"clamshell", video:"https://www.youtube.com/results?search_query=clamshell+exercise+resistance+band+physical+therapy", guide:"https://exrx.net/WeightExercises/HipAbductor/BWLyingClamshell" },
+  { name:"Supine Bridge", sets:3, reps:10, note:"Drive through heels, squeeze glutes at top. No lumbar hyperextension.", cat:"core", svg:"bridge", video:"https://www.youtube.com/results?search_query=glute+bridge+supine+bridge+form+physical+therapy", guide:"https://exrx.net/WeightExercises/GluteusMaximus/BWLyingHipExtension" },
+  { name:"90/90 Alternating Toe Taps", sets:3, reps:10, note:"Low back pressed to floor the entire time. Lower one heel at a time.", cat:"core", svg:"toetaps", video:"https://www.youtube.com/results?search_query=supine+90+90+alternating+toe+taps+core+exercise", guide:"https://exrx.net/WeightExercises/RectusAbdominis/BW90-90ToeTaps" },
+  { name:"Wall Angels", sets:3, reps:15, note:"Back flat against wall. Slide arms up keeping full wall contact.", cat:"core", svg:"wallangels", video:"https://www.youtube.com/results?search_query=wall+angels+exercise+posture+physical+therapy", guide:"https://exrx.net/Stretches/PectoralGeneral/WallAngels" },
+  { name:"Bent Over Single Arm Row", sets:3, reps:10, note:"Brace core, flat back on bench. Pull elbow to hip.", cat:"pull", svg:"row", video:"https://www.youtube.com/results?search_query=single+arm+dumbbell+row+bent+over+form", guide:"https://exrx.net/WeightExercises/BackGeneral/DBBentOverRow" },
+  { name:"Lat Pull Down", sets:3, reps:10, note:"Lean slightly back, pull to upper chest. Control the eccentric.", cat:"pull", svg:"latpull", video:"https://www.youtube.com/results?search_query=lat+pulldown+proper+form+technique", guide:"https://exrx.net/WeightExercises/LatissimusDorsi/CBFrontPulldown" },
+  { name:"Seated Row Cable Machine", sets:3, reps:10, note:"Sit tall, pull to lower ribs. Squeeze shoulder blades.", cat:"pull", svg:"seatedrow", video:"https://www.youtube.com/results?search_query=seated+cable+row+proper+form", guide:"https://exrx.net/WeightExercises/BackGeneral/CBSeatedRow" },
+  { name:"Bicep Curls Supinated", sets:3, reps:10, note:"Palms up, elbows at sides. Full range, no swinging.", cat:"pull", svg:"bicepcurl", video:"https://www.youtube.com/results?search_query=standing+dumbbell+bicep+curl+supinated+form", guide:"https://exrx.net/WeightExercises/BicepsBrachii/DBCurl" },
+  { name:"Chest Press with Dumbbells", sets:3, reps:10, note:"Feet flat, slight arch is OK. Press up and slightly inward.", cat:"push", svg:"chestpress", video:"https://www.youtube.com/results?search_query=dumbbell+chest+press+supine+form", guide:"https://exrx.net/WeightExercises/PectoralSternal/DBBenchPress" },
+  { name:"Standing Shoulder Flexion", sets:3, reps:10, note:"Raise arms forward and overhead with control. Core braced.", cat:"push", svg:"shoulderflex", video:"https://www.youtube.com/results?search_query=standing+shoulder+flexion+exercise+physical+therapy", guide:"https://exrx.net/WeightExercises/DeltoidAnterior/DBFrontRaise" },
+  { name:"CLX Tricep Pressdowns", sets:3, reps:10, note:"Elbows pinned at sides, extend forearms down. Squeeze at bottom.", cat:"push", svg:"tricep", video:"https://www.youtube.com/results?search_query=CLX+tricep+pressdown+resistance+band+exercise", guide:"https://exrx.net/WeightExercises/Triceps/CBPushdown" },
+  { name:"Shoulder External Rotation", sets:3, reps:10, note:"Elbow pinned to side at 90°, rotate forearm outward.", cat:"push", svg:"extrot", video:"https://www.youtube.com/results?search_query=shoulder+external+rotation+exercise+physical+therapy", guide:"https://exrx.net/WeightExercises/Infraspinatus/DBExternalRotation" },
+  { name:"Shoulder Horiz. Abduction", sets:3, reps:10, note:"Arms at shoulder height, pull back squeezing rear delts.", cat:"push", svg:"horizabd", video:"https://www.youtube.com/results?search_query=standing+shoulder+horizontal+abduction+exercise", guide:"https://exrx.net/WeightExercises/DeltoidPosterior/DBRearLateralRaise" },
+];
+
+const ROTATION_DAYS = [
+  { label:"Day 1", indices:[0,4,7,11] },
+  { label:"Day 2", indices:[1,5,9,12] },
+  { label:"Day 3", indices:[2,6,10,13] },
+  { label:"Day 4", indices:[3,8,14,15] },
+];
+const CAT_LABELS = {
+  lower:{text:"Lower Body",cls:"cat-lower"}, core:{text:"Core",cls:"cat-core"},
+  pull:{text:"Upper Pull",cls:"cat-pull"}, push:{text:"Upper Push",cls:"cat-push"},
+  warmup:{text:"Warm-Up",cls:"cat-warmup"},
+};
+
+// ── State ──
+let todayPT = [];
+let allToday = []; // combined: 13 RT + 4 PT
+let exState = [];
+let energyLevel = 0;
+let currentFlagIndex = -1;
+let selectedPainLevel = 0;
+let rotationDay = 0;
+
+function getRotationDay() {
+  return (JSON.parse(localStorage.getItem('pt_history')||'[]')).length % 4;
+}
+
+function buildToday() {
+  rotationDay = getRotationDay();
+  const day = ROTATION_DAYS[rotationDay];
+  todayPT = day.indices.map(i => ALL_PT[i]);
+
+  // Build combined list: RT warm-ups first, then PT
+  allToday = [];
+  RADIO_TAISO.forEach((rt, i) => {
+    allToday.push({ type:'warmup', name:rt.name, jp:rt.jp, desc:rt.desc, svgIdx:i });
+  });
+  todayPT.forEach((pt) => {
+    allToday.push({ type:'pt', ...pt });
+  });
+  exState = allToday.map(() => ({ done:false, flagged:false, painLevel:0, painNote:'' }));
+  return day;
+}
+
+// ── Init ──
+function init() {
+  document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  const day = buildToday();
+  document.getElementById('dayLabel').textContent = day.label;
+  document.getElementById('rotationInfo').innerHTML = '<strong>'+day.label+' of 4-day cycle.</strong> 13 warm-up movements + 4 PT exercises. All 16 PT exercises covered every 4 sessions.';
+  renderExercises();
+  renderHistory();
+  checkRestDay();
+  buildPainScale();
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (tab==='history') renderHistory();
+}
+
+// ── Render ──
+function renderExercises() {
+  const list = document.getElementById('exerciseList');
+  let html = '';
+  let lastType = '';
+
+  allToday.forEach((ex, i) => {
+    // Section dividers
+    if (ex.type !== lastType) {
+      if (ex.type === 'warmup') {
+        html += '<div class="section-divider divider-warmup">&#x1f1ef;&#x1f1f5; Radio Taiso Warm-Up</div>';
+      } else {
+        html += '<div class="section-divider divider-pt">&#x1F3CB;&#xFE0F; PT Exercises</div>';
+      }
+      lastType = ex.type;
+    }
+
+    if (ex.type === 'warmup') {
+      html += `
+      <div class="exercise-row ${exState[i].done?'completed':''}" id="exRow${i}">
+        <div class="ex-illus ex-illus-warmup"><a href="${RT_PDF}" target="_blank" rel="noopener">${RT_SVG[ex.svgIdx]}</a></div>
+        <div class="ex-mid">
+          <div class="ex-top-row">
+            <button class="ex-check ${exState[i].done?'checked':''}" onclick="toggle(${i})" id="exCheck${i}">&check;</button>
+            <span class="ex-name">${ex.name}</span>
+          </div>
+          <div class="ex-meta" style="color:var(--pink);opacity:0.7">${ex.jp}</div>
+          <div class="ex-note">${ex.desc}</div>
+          <div class="ex-links">
+            <span class="ex-category cat-warmup">Warm-Up</span>
+            <a href="${RT_PDF}" target="_blank" rel="noopener" class="ex-link ex-link-pink">&#x1F4D6; Movement Card</a>
+          </div>
+        </div>
+        <button class="ex-flag ${exState[i].flagged?'flagged':''}" onclick="openPainModal(${i})" id="exFlag${i}">&#x1F6A9;</button>
+      </div>`;
+    } else {
+      const ci = CAT_LABELS[ex.cat];
+      const svg = PT_SVG[ex.svg] || '';
+      html += `
+      <div class="exercise-row ${exState[i].done?'completed':''}" id="exRow${i}">
+        <div class="ex-illus ex-illus-${ex.cat}"><a href="${ex.video}" target="_blank" rel="noopener">${svg}</a></div>
+        <div class="ex-mid">
+          <div class="ex-top-row">
+            <button class="ex-check ${exState[i].done?'checked':''}" onclick="toggle(${i})" id="exCheck${i}">&check;</button>
+            <span class="ex-name">${ex.name}</span>
+          </div>
+          <div class="ex-meta">${ex.reps} reps &times; ${ex.sets} sets</div>
+          <div class="ex-note">${ex.note}</div>
+          <div class="ex-links">
+            <span class="ex-category ${ci.cls}">${ci.text}</span>
+            <a href="${ex.video}" target="_blank" rel="noopener" class="ex-link">&#x25B6; Video</a>
+            <a href="${ex.guide}" target="_blank" rel="noopener" class="ex-link">&#x1F4D6; Guide</a>
+          </div>
+        </div>
+        <button class="ex-flag ${exState[i].flagged?'flagged':''}" onclick="openPainModal(${i})" id="exFlag${i}">&#x1F6A9;</button>
+      </div>`;
+    }
+  });
+  list.innerHTML = html;
+  updateProgress();
+}
+
+function toggle(i) {
+  exState[i].done = !exState[i].done;
+  document.getElementById('exRow'+i).classList.toggle('completed', exState[i].done);
+  document.getElementById('exCheck'+i).classList.toggle('checked', exState[i].done);
+  updateProgress();
+}
+
+function updateProgress() {
+  const done = exState.filter(e=>e.done).length;
+  const total = allToday.length;
+  document.getElementById('progressText').textContent = done+' / '+total;
+  document.getElementById('progressFill').style.width = (done/total*100)+'%';
+}
+
+// ── Pain ──
+function buildPainScale() {
+  document.getElementById('painScale').innerHTML =
+    ['1-2<br>Mild','3-4<br>Mod','5-6<br>Bad','7-8<br>Severe','9-10<br>Stop'].map((l,i)=>
+      '<button class="pain-btn" onclick="selectPain('+((i+1)*2)+',this)">'+l+'</button>'
+    ).join('');
+}
+function openPainModal(i) {
+  currentFlagIndex=i;
+  document.getElementById('painExName').textContent=allToday[i].name;
+  document.getElementById('painNotes').value=exState[i].painNote||'';
+  document.querySelectorAll('.pain-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('painModal').classList.add('show');
+}
+function closePainModal() { document.getElementById('painModal').classList.remove('show'); currentFlagIndex=-1; }
+function selectPain(lv,el) { selectedPainLevel=lv; document.querySelectorAll('.pain-btn').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); }
+function savePainFlag() {
+  if (currentFlagIndex<0) return;
+  exState[currentFlagIndex].flagged=true;
+  exState[currentFlagIndex].painLevel=selectedPainLevel;
+  exState[currentFlagIndex].painNote=document.getElementById('painNotes').value;
+  document.getElementById('exFlag'+currentFlagIndex).classList.add('flagged');
+  closePainModal(); selectedPainLevel=0;
+}
+
+function setEnergy(lv,el) { energyLevel=lv; document.querySelectorAll('.energy-btn').forEach(b=>b.classList.remove('selected')); el.classList.add('selected'); }
+
+// ── Finish ──
+function finishSession() {
+  const done = exState.filter(e=>e.done).length;
+  if (done===0) { alert('Complete at least one exercise before logging.'); return; }
+  const session = {
+    date: new Date().toISOString(),
+    rotationLabel: ROTATION_DAYS[rotationDay].label,
+    exercises: exState.map((e,i) => ({ name:allToday[i].name, type:allToday[i].type, cat:allToday[i].cat||'warmup', done:e.done, flagged:e.flagged, painLevel:e.painLevel, painNote:e.painNote })),
+    completed: done, total: allToday.length,
+    energy: energyLevel,
+    notes: document.getElementById('sessionNotes').value
+  };
+  const history = JSON.parse(localStorage.getItem('pt_history')||'[]');
+  history.unshift(session);
+  localStorage.setItem('pt_history', JSON.stringify(history));
+
+  energyLevel=0;
+  document.getElementById('sessionNotes').value='';
+  document.querySelectorAll('.energy-btn').forEach(b=>b.classList.remove('selected'));
+  const day = buildToday();
+  document.getElementById('dayLabel').textContent = day.label;
+  document.getElementById('rotationInfo').innerHTML = '<strong>Next: '+day.label+'.</strong> 13 warm-up + 4 PT exercises. All 16 covered every 4 sessions.';
+  renderExercises();
+  alert('Session logged! '+done+'/'+allToday.length+' exercises completed.' + (session.exercises.some(e=>e.flagged)?'\n\u26A0\uFE0F Pain flags recorded \u2014 discuss with your PT.':''));
+}
+
+// ── History ──
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem('pt_history')||'[]');
+  const listEl = document.getElementById('historyList');
+  document.getElementById('totalSessions').textContent = history.length;
+  if (history.length>0) {
+    const avg = Math.round(history.reduce((a,s)=>a+(s.completed/s.total)*100,0)/history.length);
+    document.getElementById('avgCompletion').textContent = avg+'%';
+  }
+  document.getElementById('flagCount').textContent = history.reduce((a,s)=>a+s.exercises.filter(e=>e.flagged).length,0);
+  let streak=0; const today=new Date(); today.setHours(0,0,0,0);
+  for (let i=0;i<history.length;i++) {
+    const d=new Date(history[i].date); d.setHours(0,0,0,0);
+    if (Math.round((today-d)/86400000)===streak) streak++; else break;
+  }
+  document.getElementById('streakNum').textContent = streak;
+  renderCoverage(history);
+  if (!history.length) { listEl.innerHTML='<div class="empty-state"><div style="font-size:40px;margin-bottom:12px">&#x1F4CB;</div>No sessions yet.</div>'; return; }
+  const ei=['','\u{1F634}','\u{1F610}','\u{1F4AA}','\u{1F525}'];
+  listEl.innerHTML = history.slice(0,30).map(s => {
+    const d=new Date(s.date), ds=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+    const pct=Math.round(s.completed/s.total*100), fl=s.exercises.some(e=>e.flagged);
+    const bc=pct===100?'badge-complete':(fl?'badge-flagged':'badge-partial');
+    const bt=pct===100?'100%':(fl?pct+'%\u26A0\uFE0F':pct+'%');
+    const ptOnly = s.exercises.filter(e=>e.type==='pt').map(e=>e.name.split(' ').slice(0,2).join(' ')).join(' \u2022 ');
+    return '<div class="history-item"><div class="history-top"><div><div class="history-date">'+ds+' <span style="color:var(--orange);font-size:11px;font-weight:700">'+(s.rotationLabel||'')+'</span></div><div class="history-meta">'+s.completed+'/'+s.total+' '+(ei[s.energy]||'')+(s.notes?' \u2022 \u{1F4DD}':'')+'</div></div><span class="history-badge '+bc+'">'+bt+'</span></div><div class="history-exercises">PT: '+ptOnly+'</div>'+(fl?'<div class="history-meta" style="color:var(--red);margin-top:4px">Pain: '+s.exercises.filter(e=>e.flagged).map(e=>e.name).join(', ')+'</div>':'')+'</div>';
+  }).join('');
+}
+
+function renderCoverage(history) {
+  const last4=history.slice(0,4), done=new Set();
+  last4.forEach(s=>s.exercises.forEach(e=>{if(e.done && e.type==='pt') done.add(e.name);}));
+  document.getElementById('coverageGrid').innerHTML = ALL_PT.map(ex => {
+    const d=done.has(ex.name);
+    return '<div class="cov-item"><span>'+ex.name.split(' ').slice(0,3).join(' ')+'</span><span class="'+(d?'check':'miss')+'">'+(d?'\u2713':'\u2014')+'</span></div>';
+  }).join('');
+}
+
+function checkRestDay() {
+  const history=JSON.parse(localStorage.getItem('pt_history')||'[]');
+  if (history.length>=3) {
+    const today=new Date(); today.setHours(0,0,0,0); let c=0;
+    for (let i=0;i<Math.min(history.length,5);i++) {
+      const d=new Date(history[i].date); d.setHours(0,0,0,0);
+      if (Math.round((today-d)/86400000)<=i+1) c++; else break;
+    }
+    if (c>=3) document.getElementById('restSuggestion').style.display='block';
+  }
+}
+
+function clearHistory() {
+  if (confirm('Clear all session history?')) {
+    localStorage.removeItem('pt_history'); renderHistory();
+    const day=buildToday();
+    document.getElementById('dayLabel').textContent=day.label;
+    renderExercises();
+  }
+}
+
+init();
+</script>
+</body>
+</html>
