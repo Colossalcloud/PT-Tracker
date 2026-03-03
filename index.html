@@ -166,6 +166,10 @@
     font-size: 12px; line-height: 1.5;
   }
   .ex-detail-panel.open { display: block; }
+  .ex-detail-illus {
+    display: flex; justify-content: center; margin-bottom: 10px;
+  }
+  .ex-detail-illus svg { width: 120px; height: 120px; }
   .ex-detail-section { margin-bottom: 8px; }
   .ex-detail-section:last-child { margin-bottom: 0; }
   .ex-detail-label { font-weight: 700; color: var(--text); margin-bottom: 2px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
@@ -626,6 +630,7 @@ function renderExercises() {
           <button class="ex-flag ${exState[i].flagged?'flagged':''}" onclick="openPainModal(${i})" id="exFlag${i}">&#x1F6A9;</button>
         </div>
         <div class="ex-detail-panel" id="exDetail${i}">
+          <div class="ex-detail-illus">${RT_SVG[ex.svgIdx]}</div>
           <div class="ex-detail-section">
             <div class="ex-detail-label">How to perform</div>
             <div class="ex-detail-text">${ex.howto}</div>
@@ -662,6 +667,7 @@ function renderExercises() {
           <button class="ex-flag ${exState[i].flagged?'flagged':''}" onclick="openPainModal(${i})" id="exFlag${i}">&#x1F6A9;</button>
         </div>
         <div class="ex-detail-panel" id="exDetail${i}">
+          <div class="ex-detail-illus">${svg}</div>
           <div class="ex-detail-section">
             <div class="ex-detail-label">How to perform</div>
             <div class="ex-detail-text">${ex.howto}</div>
