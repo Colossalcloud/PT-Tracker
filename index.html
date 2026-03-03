@@ -149,6 +149,33 @@
   }
   .ex-flag.flagged { background: var(--red-dim); border-color: var(--red); }
 
+  /* Expandable detail panel */
+  .ex-howto-btn {
+    font-size: 11px; font-weight: 600; padding: 3px 8px;
+    border-radius: 5px; border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 3px;
+    transition: all 0.2s;
+  }
+  .ex-howto-btn-warmup { color: var(--pink); background: var(--pink-dim); }
+  .ex-howto-btn-pt { color: var(--accent); background: var(--accent-dim); }
+  .ex-detail-panel {
+    display: none; margin-top: 8px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 10px; padding: 12px;
+    font-size: 12px; line-height: 1.5;
+  }
+  .ex-detail-panel.open { display: block; }
+  .ex-detail-section { margin-bottom: 8px; }
+  .ex-detail-section:last-child { margin-bottom: 0; }
+  .ex-detail-label { font-weight: 700; color: var(--text); margin-bottom: 2px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .ex-detail-text { color: var(--text-mid); }
+  .ex-detail-muscles { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .ex-muscle-tag {
+    font-size: 10px; padding: 2px 6px; border-radius: 4px;
+    background: rgba(255,255,255,0.06); color: var(--text-mid); font-weight: 600;
+  }
+
   .safety-banner {
     background: var(--red-dim); border: 1px solid rgba(248,113,113,0.3);
     border-radius: 10px; padding: 12px 14px;
@@ -335,8 +362,6 @@
 </div>
 
 <script>
-const RT_PDF = "https://www.japansociety.org.uk/usercontent/833460cae3b1d64d3ac78edb37286e93/Radio-Taiso-Movements-Card.pdf";
-
 function svgWrap(inner, accent) {
   return '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><style>.b{fill:none;stroke:#d4d4d8;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.h{fill:#d4d4d8}.a{fill:none;stroke:'+accent+';stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:3,2}</style></defs>'+inner+'</svg>';
 }
@@ -381,38 +406,125 @@ const PT_SVG = {
 
 // ── Data ──
 const RADIO_TAISO = [
-  { name:"Stretch Up High", jp:"背伸びの運動", desc:"Raise both arms overhead, lower out to sides. ×2." },
-  { name:"Arms & Legs Bend", jp:"腕を振って脚の曲げ伸ばし", desc:"Swing arms out while doing a light squat. ×8." },
-  { name:"Arm Circles", jp:"腕を回す運動", desc:"Full arm circles forward ×4, then reverse ×4." },
-  { name:"Chest Stretches", jp:"胸をそらす運動", desc:"Swing arms to shoulder level, pull back opening chest. ×4." },
-  { name:"Side Stretches", jp:"体を横に曲げる運動", desc:"Reach overhead, bend sideways. Gentle bounce ×2 each side." },
-  { name:"Forward & Back Bends", jp:"体を前後に曲げる運動", desc:"Bend forward, bounce ×3. Stand, gentle lean back. ×2. Easy on the back bend." },
-  { name:"Body Twists", jp:"体をねじる運動", desc:"Twist torso L/R ×4, then 2 bigger twists each direction." },
-  { name:"Arm Thrusting", jp:"腕を上下に伸ばす運動", desc:"Thrust arms up and down with energy. Activates upper body." },
-  { name:"Stepping & Arm Swing", jp:"体を斜め下に曲げる運動", desc:"Step to side, bend diagonally down reaching across. Alternate." },
-  { name:"Full Body Turn", jp:"体を回す運動", desc:"Circle upper body — forward, side, back, around. ×2 each direction. Slowly." },
-  { name:"Jumping / Bouncing", jp:"両足で跳ぶ運動", desc:"Light bouncing in place ~15 sec. Small hops are fine." },
-  { name:"Arms & Legs Again", jp:"腕を振って脚の曲げ伸ばし", desc:"Repeat #2 — arm swings with light squats. Cool-down." },
-  { name:"Deep Breathing", jp:"深呼吸", desc:"Raise arms inhaling. Lower arms exhaling. ×3. Relax." },
+  { name:"Stretch Up High", jp:"背伸びの運動", desc:"Raise both arms overhead, lower out to sides. ×2.",
+    howto:"Stand with feet shoulder-width apart, arms relaxed at your sides. On the count, raise both arms overhead through the sides in a wide arc until palms nearly touch above your head. Rise onto your toes slightly as you reach the top. Lower arms back down through the same arc. Breathe in as arms go up, breathe out coming down.",
+    mistakes:"Shrugging the shoulders up toward the ears instead of keeping them relaxed. Rushing the movement — this is a slow, controlled stretch. Locking the knees.",
+    muscles:["Shoulders","Lats","Calves","Core"] },
+  { name:"Arms & Legs Bend", jp:"腕を振って脚の曲げ伸ばし", desc:"Swing arms out while doing a light squat. ×8.",
+    howto:"Start with arms crossed in front of your chest. As you bend your knees into a light squat, swing both arms out to the sides at shoulder height. As you straighten your legs, bring arms back to the crossed position. Keep a steady, rhythmic tempo.",
+    mistakes:"Squatting too deep — this is a light, bouncy bend. Letting your knees cave inward. Swinging arms too aggressively. Holding your breath.",
+    muscles:["Quads","Shoulders","Glutes","Core"] },
+  { name:"Arm Circles", jp:"腕を回す運動", desc:"Full arm circles forward ×4, then reverse ×4.",
+    howto:"Extend both arms out to the sides at shoulder height. Make full, smooth circles with both arms — 4 circles forward, then 4 circles in reverse. Keep the circles controlled and about shoulder-width in diameter. Arms stay straight throughout.",
+    mistakes:"Making the circles too small or too large. Bending the elbows. Moving the torso instead of isolating the arms. Tensing the neck and traps.",
+    muscles:["Shoulders","Rotator Cuff","Upper Back","Trapezius"] },
+  { name:"Chest Stretches", jp:"胸をそらす運動", desc:"Swing arms to shoulder level, pull back opening chest. ×4.",
+    howto:"Start with arms bent at the elbows, fists near your chest. Push elbows back twice with a small bounce to open the chest. Then extend arms fully to the sides and pull back twice more. The motion alternates: bent-arm pull back, straight-arm pull back. Keep your back straight and tall.",
+    mistakes:"Rounding the shoulders forward between reps. Pulling too aggressively. Leaning backward. Not fully opening through the chest.",
+    muscles:["Pectorals","Anterior Deltoids","Rhomboids","Upper Back"] },
+  { name:"Side Stretches", jp:"体を横に曲げる運動", desc:"Reach overhead, bend sideways. Gentle bounce ×2 each side.",
+    howto:"Raise one arm overhead and bend your torso sideways, reaching that arm over your head in the direction of the bend. Give two gentle bounces at the end range. Return to center and repeat on the other side. Keep hips stationary — the movement is all in the torso.",
+    mistakes:"Leaning forward or backward instead of directly to the side. Bending too aggressively — keep it gentle. Rotating the torso. Lifting the opposite foot off the ground.",
+    muscles:["Obliques","Lats","Intercostals","Quadratus Lumborum"] },
+  { name:"Forward & Back Bends", jp:"体を前後に曲げる運動", desc:"Bend forward, bounce ×3. Stand, gentle lean back. ×2. Easy on the back bend.",
+    howto:"Bend forward at the waist, reaching toward your toes with three gentle bounces. Stand back up, then place your hands on your lower back and do a small, gentle backward lean. Repeat the whole sequence twice. ⚠️ For lower back recovery: keep the back bend very small and controlled.",
+    mistakes:"Rounding the back aggressively on the forward bend. Going too far on the back bend — especially with lower back issues, keep it minimal. Bouncing too hard. Locking the knees.",
+    muscles:["Hamstrings","Erector Spinae","Core","Hip Flexors"] },
+  { name:"Body Twists", jp:"体をねじる運動", desc:"Twist torso L/R ×4, then 2 bigger twists each direction.",
+    howto:"Stand with feet wider than shoulder-width. Let your arms hang relaxed. Twist your torso left and right, letting your arms swing naturally with the momentum — 4 small twists. Then do 2 bigger twists each direction, looking behind you as you turn. Your hips should stay mostly forward.",
+    mistakes:"Twisting from the hips instead of the torso. Forcing the twist too far. Moving too fast without control. Tensing the arms instead of letting them swing freely.",
+    muscles:["Obliques","Erector Spinae","Core","Shoulders"] },
+  { name:"Arm Thrusting", jp:"腕を上下に伸ばす運動", desc:"Thrust arms up and down with energy. Activates upper body.",
+    howto:"Start with fists near your shoulders, elbows bent. Thrust one arm straight up overhead while bringing the other down to your side. Alternate rapidly with energy — left up / right down, then switch. Add a slight bounce in your knees to get rhythm going.",
+    mistakes:"Not fully extending the arms. Leaning to one side. Hunching the shoulders. Holding your breath — breathe rhythmically.",
+    muscles:["Shoulders","Triceps","Core","Upper Back"] },
+  { name:"Stepping & Arm Swing", jp:"体を斜め下に曲げる運動", desc:"Step to side, bend diagonally down reaching across. Alternate.",
+    howto:"Step out to one side with a wide stance. Bend diagonally forward and down, reaching both arms toward the foot you stepped toward. Give two gentle bounces at the bottom. Return to center and repeat on the other side. The movement flows smoothly side to side.",
+    mistakes:"Rounding the back too much — hinge at the hips. Stepping too narrow. Not reaching far enough. Rushing through the transitions.",
+    muscles:["Hamstrings","Obliques","Shoulders","Hip Flexors"] },
+  { name:"Full Body Turn", jp:"体を回す運動", desc:"Circle upper body — forward, side, back, around. ×2 each direction. Slowly.",
+    howto:"Stand with feet wide, hands on hips or arms hanging. Circle your entire upper body in a smooth motion: bend forward, roll to one side, lean gently back, roll to the other side, and back to forward. Complete 2 full circles in one direction, then reverse. Move slowly and deliberately.",
+    mistakes:"Going too fast — this should be slow and controlled. Overextending the backward portion. Bending the knees to compensate. Not making a full, smooth circle.",
+    muscles:["Core","Obliques","Erector Spinae","Hip Flexors"] },
+  { name:"Jumping / Bouncing", jp:"両足で跳ぶ運動", desc:"Light bouncing in place ~15 sec. Small hops are fine.",
+    howto:"Bounce lightly on the balls of your feet, small hops about an inch off the ground. Arms can swing naturally at your sides or stay relaxed. Keep a steady rhythm for about 15 seconds. Land softly with slight knee bend each time. ⚠️ If jumping aggravates your back, march in place instead.",
+    mistakes:"Jumping too high — keep it low impact. Landing with straight knees. Pounding the heels. Holding your breath.",
+    muscles:["Calves","Quads","Core","Cardiovascular"] },
+  { name:"Arms & Legs Again", jp:"腕を振って脚の曲げ伸ばし", desc:"Repeat #2 — arm swings with light squats. Cool-down.",
+    howto:"Same as exercise #2 — arms crossed, swing out to sides as you do light knee bends. This is a cool-down from the jumping. Slower tempo, settling your breathing. Focus on smooth, relaxed movement.",
+    mistakes:"Going too fast — this is meant to bring your heart rate back down. Forgetting to breathe deeply and rhythmically. Stopping too abruptly.",
+    muscles:["Quads","Shoulders","Glutes","Core"] },
+  { name:"Deep Breathing", jp:"深呼吸", desc:"Raise arms inhaling. Lower arms exhaling. ×3. Relax.",
+    howto:"Slowly raise both arms out and up overhead as you take a deep breath in through your nose. At the top, pause briefly. Then slowly lower your arms back down as you exhale through your mouth. Repeat 3 times. Let your whole body relax and soften with each exhale.",
+    mistakes:"Breathing too shallow or too fast. Shrugging the shoulders. Rushing through it — take your time, this is the finale. Not fully exhaling.",
+    muscles:["Diaphragm","Shoulders","Intercostals","Full Body Relaxation"] },
 ];
 
 const ALL_PT = [
-  { name:"Romanian Deadlift with Bar", sets:3, reps:10, note:"Hinge at hips, soft knees, bar close to legs. Keep lumbar neutral.", cat:"lower", svg:"rdl", video:"https://www.youtube.com/results?search_query=romanian+deadlift+barbell+form+physical+therapy", guide:"https://exrx.net/WeightExercises/GluteusMaximus/BBRomanianDeadlift" },
-  { name:"Goblet Squat with Kettlebell", sets:3, reps:10, note:"Chest up, weight in heels, knees track over toes.", cat:"lower", svg:"goblet", video:"https://www.youtube.com/results?search_query=goblet+squat+kettlebell+proper+form", guide:"https://exrx.net/WeightExercises/Quadriceps/DBGobletSquat" },
-  { name:"Side Stepping with Band", sets:3, reps:10, note:"Band above knees or ankles. Stay low, don't let knees cave.", cat:"lower", svg:"sidestep", video:"https://www.youtube.com/results?search_query=lateral+band+walk+side+stepping+resistance+band", guide:"https://exrx.net/WeightExercises/HipAbductor/BWSideStepResistanceBand" },
-  { name:"Clamshell with Resistance", sets:3, reps:10, note:"Side-lying, feet together. Open top knee, don't roll pelvis.", cat:"lower", svg:"clamshell", video:"https://www.youtube.com/results?search_query=clamshell+exercise+resistance+band+physical+therapy", guide:"https://exrx.net/WeightExercises/HipAbductor/BWLyingClamshell" },
-  { name:"Supine Bridge", sets:3, reps:10, note:"Drive through heels, squeeze glutes at top. No lumbar hyperextension.", cat:"core", svg:"bridge", video:"https://www.youtube.com/results?search_query=glute+bridge+supine+bridge+form+physical+therapy", guide:"https://exrx.net/WeightExercises/GluteusMaximus/BWLyingHipExtension" },
-  { name:"90/90 Alternating Toe Taps", sets:3, reps:10, note:"Low back pressed to floor the entire time. Lower one heel at a time.", cat:"core", svg:"toetaps", video:"https://www.youtube.com/results?search_query=supine+90+90+alternating+toe+taps+core+exercise", guide:"https://exrx.net/WeightExercises/RectusAbdominis/BW90-90ToeTaps" },
-  { name:"Wall Angels", sets:3, reps:15, note:"Back flat against wall. Slide arms up keeping full wall contact.", cat:"core", svg:"wallangels", video:"https://www.youtube.com/results?search_query=wall+angels+exercise+posture+physical+therapy", guide:"https://exrx.net/Stretches/PectoralGeneral/WallAngels" },
-  { name:"Bent Over Single Arm Row", sets:3, reps:10, note:"Brace core, flat back on bench. Pull elbow to hip.", cat:"pull", svg:"row", video:"https://www.youtube.com/results?search_query=single+arm+dumbbell+row+bent+over+form", guide:"https://exrx.net/WeightExercises/BackGeneral/DBBentOverRow" },
-  { name:"Lat Pull Down", sets:3, reps:10, note:"Lean slightly back, pull to upper chest. Control the eccentric.", cat:"pull", svg:"latpull", video:"https://www.youtube.com/results?search_query=lat+pulldown+proper+form+technique", guide:"https://exrx.net/WeightExercises/LatissimusDorsi/CBFrontPulldown" },
-  { name:"Seated Row Cable Machine", sets:3, reps:10, note:"Sit tall, pull to lower ribs. Squeeze shoulder blades.", cat:"pull", svg:"seatedrow", video:"https://www.youtube.com/results?search_query=seated+cable+row+proper+form", guide:"https://exrx.net/WeightExercises/BackGeneral/CBSeatedRow" },
-  { name:"Bicep Curls Supinated", sets:3, reps:10, note:"Palms up, elbows at sides. Full range, no swinging.", cat:"pull", svg:"bicepcurl", video:"https://www.youtube.com/results?search_query=standing+dumbbell+bicep+curl+supinated+form", guide:"https://exrx.net/WeightExercises/BicepsBrachii/DBCurl" },
-  { name:"Chest Press with Dumbbells", sets:3, reps:10, note:"Feet flat, slight arch is OK. Press up and slightly inward.", cat:"push", svg:"chestpress", video:"https://www.youtube.com/results?search_query=dumbbell+chest+press+supine+form", guide:"https://exrx.net/WeightExercises/PectoralSternal/DBBenchPress" },
-  { name:"Standing Shoulder Flexion", sets:3, reps:10, note:"Raise arms forward and overhead with control. Core braced.", cat:"push", svg:"shoulderflex", video:"https://www.youtube.com/results?search_query=standing+shoulder+flexion+exercise+physical+therapy", guide:"https://exrx.net/WeightExercises/DeltoidAnterior/DBFrontRaise" },
-  { name:"CLX Tricep Pressdowns", sets:3, reps:10, note:"Elbows pinned at sides, extend forearms down. Squeeze at bottom.", cat:"push", svg:"tricep", video:"https://www.youtube.com/results?search_query=CLX+tricep+pressdown+resistance+band+exercise", guide:"https://exrx.net/WeightExercises/Triceps/CBPushdown" },
-  { name:"Shoulder External Rotation", sets:3, reps:10, note:"Elbow pinned to side at 90°, rotate forearm outward.", cat:"push", svg:"extrot", video:"https://www.youtube.com/results?search_query=shoulder+external+rotation+exercise+physical+therapy", guide:"https://exrx.net/WeightExercises/Infraspinatus/DBExternalRotation" },
-  { name:"Shoulder Horiz. Abduction", sets:3, reps:10, note:"Arms at shoulder height, pull back squeezing rear delts.", cat:"push", svg:"horizabd", video:"https://www.youtube.com/results?search_query=standing+shoulder+horizontal+abduction+exercise", guide:"https://exrx.net/WeightExercises/DeltoidPosterior/DBRearLateralRaise" },
+  { name:"Romanian Deadlift with Bar", sets:3, reps:10, note:"Hinge at hips, soft knees, bar close to legs. Keep lumbar neutral.", cat:"lower", svg:"rdl",
+    howto:"Stand with feet hip-width apart, holding the bar with an overhand grip. Push hips back like closing a car door with your butt. Let the bar slide down your thighs, keeping it close to your body. Go until you feel a stretch in your hamstrings (roughly mid-shin), then drive hips forward to stand.",
+    mistakes:"Rounding the lower back. Bending the knees too much (this isn't a squat). Letting the bar drift away from your legs. Looking up and hyperextending the neck.",
+    muscles:["Glutes","Hamstrings","Erector Spinae","Core"] },
+  { name:"Goblet Squat with Kettlebell", sets:3, reps:10, note:"Chest up, weight in heels, knees track over toes.", cat:"lower", svg:"goblet",
+    howto:"Hold a kettlebell at chest height by the horns, elbows pointing down. Feet shoulder-width apart, toes slightly out. Sit straight down between your legs, keeping your chest tall and elbows inside your knees. Push through your whole foot to stand back up.",
+    mistakes:"Leaning forward and letting the weight pull you down. Knees caving inward. Rising onto toes. Not going deep enough — aim for thighs parallel to floor.",
+    muscles:["Quads","Glutes","Core","Adductors"] },
+  { name:"Side Stepping with Band", sets:3, reps:10, note:"Band above knees or ankles. Stay low, don't let knees cave.", cat:"lower", svg:"sidestep",
+    howto:"Place resistance band just above both knees (or at ankles for more difficulty). Get into a quarter-squat position, feet hip-width. Step sideways leading with one foot, then follow with the other, keeping constant tension on the band. Stay low the entire time.",
+    mistakes:"Standing too tall and losing the squat position. Letting the trailing foot snap back (control it). Knees caving in toward each other. Leaning the torso to one side.",
+    muscles:["Glute Medius","Hip Abductors","Quads","Core"] },
+  { name:"Clamshell with Resistance", sets:3, reps:10, note:"Side-lying, feet together. Open top knee, don't roll pelvis.", cat:"lower", svg:"clamshell",
+    howto:"Lie on your side with knees bent at 45°, band around both knees, feet stacked together. Keep your feet touching as you open your top knee toward the ceiling like a clamshell opening. Hold the top briefly, then lower with control.",
+    mistakes:"Rolling the pelvis backward as you open the knee — your hips should stay stacked. Lifting the top foot instead of keeping feet together. Rushing the movement. Using too strong a band and compensating with bad form.",
+    muscles:["Glute Medius","Hip External Rotators","Glute Minimus"] },
+  { name:"Supine Bridge", sets:3, reps:10, note:"Drive through heels, squeeze glutes at top. No lumbar hyperextension.", cat:"core", svg:"bridge",
+    howto:"Lie face-up, knees bent, feet flat on floor hip-width apart. Arms at your sides. Press through your heels and squeeze your glutes to lift your hips until your body forms a straight line from knees to shoulders. Hold 1-2 sec at the top, then lower slowly.",
+    mistakes:"Pushing hips too high and arching the low back. Pushing through toes instead of heels. Not fully squeezing glutes at the top. Letting knees fall inward or outward.",
+    muscles:["Glutes","Hamstrings","Core","Erector Spinae"] },
+  { name:"90/90 Alternating Toe Taps", sets:3, reps:10, note:"Low back pressed to floor the entire time. Lower one heel at a time.", cat:"core", svg:"toetaps",
+    howto:"Lie face-up, bring both legs to tabletop position: hips at 90°, knees at 90°. Press your low back firmly into the floor. Slowly lower ONE heel toward the floor while keeping the knee bent at 90°. Tap the floor lightly, return to start, then alternate.",
+    mistakes:"Letting the low back arch off the floor — if it lifts, you've gone too far. Moving both legs at once. Straightening the knee on the way down. Holding your breath.",
+    muscles:["Transverse Abdominis","Rectus Abdominis","Hip Flexors","Pelvic Floor"] },
+  { name:"Wall Angels", sets:3, reps:15, note:"Back flat against wall. Slide arms up keeping full wall contact.", cat:"core", svg:"wallangels",
+    howto:"Stand with your back, head, and butt against a wall. Place arms against the wall in a \"goal post\" position (elbows at 90°). Slowly slide your arms up overhead, keeping your wrists, elbows, and back of hands touching the wall the entire time. Slide back down.",
+    mistakes:"Arching the low back off the wall. Letting elbows or wrists lose wall contact (this means you need to reduce range). Shrugging shoulders up toward ears. Rushing through reps.",
+    muscles:["Lower Trapezius","Serratus Anterior","Rotator Cuff","Thoracic Extensors"] },
+  { name:"Bent Over Single Arm Row", sets:3, reps:10, note:"Brace core, flat back on bench. Pull elbow to hip.", cat:"pull", svg:"row",
+    howto:"Place one hand and the same-side knee on a bench for support. Hold a dumbbell in the free hand, arm hanging straight down. Brace your core, keep your back flat like a table. Pull the dumbbell up by driving your elbow toward your hip. Lower under control.",
+    mistakes:"Rotating the torso to heave the weight up. Rounding the upper back. Shrugging the shoulder instead of pulling with the back. Using momentum and swinging.",
+    muscles:["Lats","Rhomboids","Rear Deltoid","Biceps","Core"] },
+  { name:"Lat Pull Down", sets:3, reps:10, note:"Lean slightly back, pull to upper chest. Control the eccentric.", cat:"pull", svg:"latpull",
+    howto:"Grip the bar slightly wider than shoulder width. Sit with thighs secured under the pad. Lean back about 15-20°. Pull the bar down to your upper chest, leading with your elbows down and back. Squeeze your shoulder blades together at the bottom. Slowly return to the top.",
+    mistakes:"Leaning too far back and turning it into a row. Pulling the bar behind the neck (stresses shoulders). Using momentum and jerking the weight. Not fully extending arms at the top.",
+    muscles:["Lats","Biceps","Rhomboids","Lower Trapezius"] },
+  { name:"Seated Row Cable Machine", sets:3, reps:10, note:"Sit tall, pull to lower ribs. Squeeze shoulder blades.", cat:"pull", svg:"seatedrow",
+    howto:"Sit on the machine, feet on the platform, slight bend in knees. Grab the handle with both hands. Sit tall with chest proud. Pull the handle to your lower ribs, squeezing shoulder blades together at the end. Slowly extend back without letting your torso round forward.",
+    mistakes:"Rounding the back forward as you return the weight. Using your body to rock back and forth. Not pulling far enough back. Shrugging shoulders up during the pull.",
+    muscles:["Rhomboids","Middle Trapezius","Lats","Biceps","Rear Deltoid"] },
+  { name:"Bicep Curls Supinated", sets:3, reps:10, note:"Palms up, elbows at sides. Full range, no swinging.", cat:"pull", svg:"bicepcurl",
+    howto:"Stand with dumbbells at your sides, palms facing forward (supinated grip). Keep your elbows pinned at your sides the entire time. Curl the weights up by bending your elbows, squeezing the biceps at the top. Lower all the way down under control.",
+    mistakes:"Swinging the body or using momentum to get the weight up. Elbows drifting forward during the curl. Not going through full range of motion. Dropping the weight on the way down instead of controlling it.",
+    muscles:["Biceps Brachii","Brachialis","Forearms"] },
+  { name:"Chest Press with Dumbbells", sets:3, reps:10, note:"Feet flat, slight arch is OK. Press up and slightly inward.", cat:"push", svg:"chestpress",
+    howto:"Lie on a flat bench holding dumbbells at chest level, palms facing your feet. Feet flat on the floor. Press the dumbbells up and slightly inward until arms are extended (don't lock elbows). Lower slowly until upper arms are roughly parallel with the floor.",
+    mistakes:"Flaring elbows out to 90° — keep them at about 45° to protect shoulders. Bouncing the weights off your chest. Arching the back excessively. Uneven pressing (one arm ahead of the other).",
+    muscles:["Pectorals","Anterior Deltoid","Triceps"] },
+  { name:"Standing Shoulder Flexion", sets:3, reps:10, note:"Raise arms forward and overhead with control. Core braced.", cat:"push", svg:"shoulderflex",
+    howto:"Stand tall, arms at your sides with light weights or no weight. Brace your core. Raise both arms forward and up overhead with thumbs pointing up. Go only as high as you can without arching your back. Lower slowly back to your sides.",
+    mistakes:"Arching the lower back as arms go overhead — stop at the point where your back starts to arch. Shrugging shoulders toward ears. Using momentum to swing the arms up. Tilting the head forward.",
+    muscles:["Anterior Deltoid","Upper Trapezius","Serratus Anterior","Core"] },
+  { name:"CLX Tricep Pressdowns", sets:3, reps:10, note:"Elbows pinned at sides, extend forearms down. Squeeze at bottom.", cat:"push", svg:"tricep",
+    howto:"Anchor the CLX band (or loop band) up high — over a door, a pull-up bar, or a cable machine. Grip the band, stand with feet hip-width, slight lean forward. Pin your elbows tight to your sides. Extend your forearms down until arms are straight, squeezing the triceps. Slowly return.",
+    mistakes:"Elbows flaring out or drifting forward. Using the shoulders to push down instead of isolating the triceps. Leaning too far forward and using body weight. Not fully extending at the bottom.",
+    muscles:["Triceps (all 3 heads)","Anconeus"] },
+  { name:"Shoulder External Rotation", sets:3, reps:10, note:"Elbow pinned to side at 90°, rotate forearm outward.", cat:"push", svg:"extrot",
+    howto:"Stand or sit with your elbow bent to 90° and pinned to your side (a rolled towel between elbow and ribs helps). Hold a light dumbbell or band. Start with your forearm across your belly, then rotate your forearm outward, away from your body, keeping the elbow fixed. Slowly return.",
+    mistakes:"Letting the elbow drift away from your side. Using too much weight — this is a small rotator cuff muscle. Moving at the shoulder instead of purely rotating. Rushing the reps.",
+    muscles:["Infraspinatus","Teres Minor","Posterior Rotator Cuff"] },
+  { name:"Shoulder Horiz. Abduction", sets:3, reps:10, note:"Arms at shoulder height, pull back squeezing rear delts.", cat:"push", svg:"horizabd",
+    howto:"Stand tall, raise both arms to shoulder height in front of you (light weights or band). With a slight bend in the elbows, pull both arms back horizontally, squeezing your shoulder blades together at the end. Slowly return to the front.",
+    mistakes:"Shrugging shoulders up toward ears. Arching the back to create momentum. Dropping the arms below shoulder height. Using too much weight and compensating with upper traps.",
+    muscles:["Rear Deltoid","Rhomboids","Middle Trapezius"] },
 ];
 
 const ROTATION_DAYS = [
@@ -448,7 +560,7 @@ function buildToday() {
   // Build combined list: RT warm-ups first, then PT
   allToday = [];
   RADIO_TAISO.forEach((rt, i) => {
-    allToday.push({ type:'warmup', name:rt.name, jp:rt.jp, desc:rt.desc, svgIdx:i });
+    allToday.push({ type:'warmup', name:rt.name, jp:rt.jp, desc:rt.desc, howto:rt.howto, mistakes:rt.mistakes, muscles:rt.muscles, svgIdx:i });
   });
   todayPT.forEach((pt) => {
     allToday.push({ type:'pt', ...pt });
@@ -496,42 +608,73 @@ function renderExercises() {
 
     if (ex.type === 'warmup') {
       html += `
-      <div class="exercise-row ${exState[i].done?'completed':''}" id="exRow${i}">
-        <div class="ex-illus ex-illus-warmup"><a href="${RT_PDF}" target="_blank" rel="noopener">${RT_SVG[ex.svgIdx]}</a></div>
-        <div class="ex-mid">
-          <div class="ex-top-row">
-            <button class="ex-check ${exState[i].done?'checked':''}" onclick="toggle(${i})" id="exCheck${i}">&check;</button>
-            <span class="ex-name">${ex.name}</span>
+      <div style="border-bottom:1px solid rgba(255,255,255,0.05)">
+        <div class="exercise-row ${exState[i].done?'completed':''}" id="exRow${i}" style="border-bottom:none">
+          <div class="ex-illus ex-illus-warmup">${RT_SVG[ex.svgIdx]}</div>
+          <div class="ex-mid">
+            <div class="ex-top-row">
+              <button class="ex-check ${exState[i].done?'checked':''}" onclick="toggle(${i})" id="exCheck${i}">&check;</button>
+              <span class="ex-name">${ex.name}</span>
+            </div>
+            <div class="ex-meta" style="color:var(--pink);opacity:0.7">${ex.jp}</div>
+            <div class="ex-note">${ex.desc}</div>
+            <div class="ex-links">
+              <span class="ex-category cat-warmup">Warm-Up</span>
+              <button class="ex-howto-btn ex-howto-btn-warmup" onclick="toggleDetail(${i})">&#x2139;&#xFE0F; How To</button>
+            </div>
           </div>
-          <div class="ex-meta" style="color:var(--pink);opacity:0.7">${ex.jp}</div>
-          <div class="ex-note">${ex.desc}</div>
-          <div class="ex-links">
-            <span class="ex-category cat-warmup">Warm-Up</span>
-            <a href="${RT_PDF}" target="_blank" rel="noopener" class="ex-link ex-link-pink">&#x1F4D6; Movement Card</a>
+          <button class="ex-flag ${exState[i].flagged?'flagged':''}" onclick="openPainModal(${i})" id="exFlag${i}">&#x1F6A9;</button>
+        </div>
+        <div class="ex-detail-panel" id="exDetail${i}">
+          <div class="ex-detail-section">
+            <div class="ex-detail-label">How to perform</div>
+            <div class="ex-detail-text">${ex.howto}</div>
+          </div>
+          <div class="ex-detail-section">
+            <div class="ex-detail-label">Common mistakes</div>
+            <div class="ex-detail-text">${ex.mistakes}</div>
+          </div>
+          <div class="ex-detail-section">
+            <div class="ex-detail-label">Muscles targeted</div>
+            <div class="ex-detail-muscles">${ex.muscles.map(m=>'<span class="ex-muscle-tag">'+m+'</span>').join('')}</div>
           </div>
         </div>
-        <button class="ex-flag ${exState[i].flagged?'flagged':''}" onclick="openPainModal(${i})" id="exFlag${i}">&#x1F6A9;</button>
       </div>`;
     } else {
       const ci = CAT_LABELS[ex.cat];
       const svg = PT_SVG[ex.svg] || '';
       html += `
-      <div class="exercise-row ${exState[i].done?'completed':''}" id="exRow${i}">
-        <div class="ex-illus ex-illus-${ex.cat}"><a href="${ex.video}" target="_blank" rel="noopener">${svg}</a></div>
-        <div class="ex-mid">
-          <div class="ex-top-row">
-            <button class="ex-check ${exState[i].done?'checked':''}" onclick="toggle(${i})" id="exCheck${i}">&check;</button>
-            <span class="ex-name">${ex.name}</span>
+      <div style="border-bottom:1px solid rgba(255,255,255,0.05)">
+        <div class="exercise-row ${exState[i].done?'completed':''}" id="exRow${i}" style="border-bottom:none">
+          <div class="ex-illus ex-illus-${ex.cat}">${svg}</div>
+          <div class="ex-mid">
+            <div class="ex-top-row">
+              <button class="ex-check ${exState[i].done?'checked':''}" onclick="toggle(${i})" id="exCheck${i}">&check;</button>
+              <span class="ex-name">${ex.name}</span>
+            </div>
+            <div class="ex-meta">${ex.reps} reps &times; ${ex.sets} sets</div>
+            <div class="ex-note">${ex.note}</div>
+            <div class="ex-links">
+              <span class="ex-category ${ci.cls}">${ci.text}</span>
+              <button class="ex-howto-btn ex-howto-btn-pt" onclick="toggleDetail(${i})">&#x2139;&#xFE0F; How To</button>
+            </div>
           </div>
-          <div class="ex-meta">${ex.reps} reps &times; ${ex.sets} sets</div>
-          <div class="ex-note">${ex.note}</div>
-          <div class="ex-links">
-            <span class="ex-category ${ci.cls}">${ci.text}</span>
-            <a href="${ex.video}" target="_blank" rel="noopener" class="ex-link">&#x25B6; Video</a>
-            <a href="${ex.guide}" target="_blank" rel="noopener" class="ex-link">&#x1F4D6; Guide</a>
+          <button class="ex-flag ${exState[i].flagged?'flagged':''}" onclick="openPainModal(${i})" id="exFlag${i}">&#x1F6A9;</button>
+        </div>
+        <div class="ex-detail-panel" id="exDetail${i}">
+          <div class="ex-detail-section">
+            <div class="ex-detail-label">How to perform</div>
+            <div class="ex-detail-text">${ex.howto}</div>
+          </div>
+          <div class="ex-detail-section">
+            <div class="ex-detail-label">Common mistakes</div>
+            <div class="ex-detail-text">${ex.mistakes}</div>
+          </div>
+          <div class="ex-detail-section">
+            <div class="ex-detail-label">Muscles targeted</div>
+            <div class="ex-detail-muscles">${ex.muscles.map(m=>'<span class="ex-muscle-tag">'+m+'</span>').join('')}</div>
           </div>
         </div>
-        <button class="ex-flag ${exState[i].flagged?'flagged':''}" onclick="openPainModal(${i})" id="exFlag${i}">&#x1F6A9;</button>
       </div>`;
     }
   });
@@ -544,6 +687,11 @@ function toggle(i) {
   document.getElementById('exRow'+i).classList.toggle('completed', exState[i].done);
   document.getElementById('exCheck'+i).classList.toggle('checked', exState[i].done);
   updateProgress();
+}
+
+function toggleDetail(i) {
+  const panel = document.getElementById('exDetail'+i);
+  if (panel) panel.classList.toggle('open');
 }
 
 function updateProgress() {
