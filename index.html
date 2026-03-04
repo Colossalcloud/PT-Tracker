@@ -344,6 +344,89 @@
     transition: all 0.2s;
   }
   .clear-btn:active { background: rgba(255,255,255,0.04); }
+
+  /* Warm-up stepper */
+  .wu-stepper {
+    padding: 4px 0 8px;
+  }
+  .wu-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 4px 10px; cursor: pointer;
+  }
+  .wu-header-left { display: flex; align-items: center; gap: 8px; }
+  .wu-header-title { font-size: 13px; font-weight: 700; color: var(--pink); }
+  .wu-counter {
+    font-size: 11px; font-weight: 600; color: var(--text-dim);
+    background: rgba(255,255,255,0.04); padding: 3px 10px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .wu-progress-track { height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; margin: 0 4px 14px; overflow: hidden; }
+  .wu-progress-bar { height: 100%; background: linear-gradient(90deg, var(--pink), #ec4899); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
+  .wu-card {
+    animation: wuSlideIn 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  @keyframes wuSlideIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:translateX(0); } }
+  .wu-current {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px; border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, rgba(244,114,182,0.06), rgba(244,114,182,0.02));
+    border: 1px solid rgba(244,114,182,0.12);
+  }
+  .wu-current .ex-illus { width: 64px; height: 64px; border-radius: 14px; }
+  .wu-current .ex-illus svg { width: 48px; height: 48px; }
+  .wu-mid { flex: 1; min-width: 0; }
+  .wu-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+  .wu-jp { font-size: 11px; color: var(--pink); opacity: 0.7; margin-bottom: 4px; }
+  .wu-desc { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+  .wu-actions { display: flex; gap: 8px; margin-top: 10px; align-items: center; }
+  .wu-done-btn {
+    padding: 8px 20px; border-radius: 20px; border: none;
+    background: linear-gradient(135deg, var(--pink), #ec4899);
+    color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 2px 10px rgba(244,114,182,0.25);
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .wu-done-btn:active { transform: scale(0.96); }
+  .wu-howto-btn {
+    padding: 8px 12px; border-radius: 20px;
+    border: 1px solid rgba(244,114,182,0.2);
+    background: var(--pink-dim); color: var(--pink);
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .wu-flag-btn {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 1px solid var(--card-border); background: rgba(255,255,255,0.02);
+    cursor: pointer; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+    margin-left: auto;
+  }
+  .wu-flag-btn.flagged { background: var(--red-dim); border-color: rgba(248,113,113,0.4); }
+  .wu-detail {
+    margin-top: 10px; padding: 14px;
+    background: rgba(255,255,255,0.02); border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm); font-size: 12px; line-height: 1.6;
+    display: none;
+    animation: panelSlide 0.25s ease;
+  }
+  .wu-detail.open { display: block; }
+  .wu-detail .ex-detail-illus { margin-bottom: 10px; }
+  .wu-complete {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 16px; border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(52,211,153,0.03));
+    border: 1px solid rgba(52,211,153,0.15);
+  }
+  .wu-complete-icon { font-size: 22px; }
+  .wu-complete-text { font-size: 13px; font-weight: 600; color: var(--green); }
+  .wu-complete-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  .wu-skip-all {
+    font-size: 11px; color: var(--text-dim); background: none; border: none;
+    cursor: pointer; text-decoration: underline; padding: 6px 0;
+    display: block; text-align: center; margin-top: 4px;
+  }
 </style>
 </head>
 <body>
@@ -657,97 +740,155 @@ function switchTab(tab) {
 }
 
 // ── Render ──
+let warmupStep = 0; // current warm-up exercise index (0-12)
+let warmupDetailOpen = false;
+
+function getNextWarmupStep() {
+  // Find first undone warmup
+  for (let i = 0; i < 13; i++) {
+    if (!exState[i].done) return i;
+  }
+  return 13; // all done
+}
+
+function renderWarmupStepper() {
+  const container = document.getElementById('warmupStepper');
+  warmupStep = getNextWarmupStep();
+  const doneCount = exState.slice(0,13).filter(e=>e.done).length;
+  const allDone = doneCount === 13;
+
+  let html = '';
+  // Progress
+  html += `<div class="wu-progress-track"><div class="wu-progress-bar" style="width:${(doneCount/13*100)}%"></div></div>`;
+
+  if (allDone) {
+    html += `<div class="wu-complete">
+      <span class="wu-complete-icon">&#x2705;</span>
+      <div>
+        <div class="wu-complete-text">Warm-Up Complete!</div>
+        <div class="wu-complete-sub">All 13 Radio Taiso movements done</div>
+      </div>
+    </div>`;
+  } else {
+    const ex = allToday[warmupStep];
+    html += `<div class="wu-card" id="wuCard">
+      <div class="wu-current">
+        <div class="ex-illus ex-illus-warmup">${RT_SVG[ex.svgIdx]}</div>
+        <div class="wu-mid">
+          <div class="wu-name">${ex.name}</div>
+          <div class="wu-jp">${ex.jp}</div>
+          <div class="wu-desc">${ex.desc}</div>
+          <div class="wu-actions">
+            <button class="wu-done-btn" onclick="completeWarmup(${warmupStep})">&#x2714; Done</button>
+            <button class="wu-howto-btn" onclick="toggleWuDetail()">&#x2139;&#xFE0F; How To</button>
+            <button class="wu-flag-btn ${exState[warmupStep].flagged?'flagged':''}" onclick="openPainModal(${warmupStep})" id="exFlag${warmupStep}">&#x1F6A9;</button>
+          </div>
+        </div>
+      </div>
+      <div class="wu-detail" id="wuDetail">
+        <div class="ex-detail-illus">${RT_SVG[ex.svgIdx]}</div>
+        <div class="ex-detail-section">
+          <div class="ex-detail-label">How to perform</div>
+          <div class="ex-detail-text">${ex.howto}</div>
+        </div>
+        <div class="ex-detail-section">
+          <div class="ex-detail-label">Common mistakes</div>
+          <div class="ex-detail-text">${ex.mistakes}</div>
+        </div>
+        <div class="ex-detail-section">
+          <div class="ex-detail-label">Muscles targeted</div>
+          <div class="ex-detail-muscles">${ex.muscles.map(m=>'<span class="ex-muscle-tag">'+m+'</span>').join('')}</div>
+        </div>
+      </div>
+    </div>
+    <button class="wu-skip-all" onclick="skipAllWarmups()">Skip warm-up</button>`;
+  }
+  container.innerHTML = html;
+  warmupDetailOpen = false;
+}
+
+function completeWarmup(i) {
+  exState[i].done = true;
+  updateProgress();
+  renderWarmupStepper();
+}
+
+function skipAllWarmups() {
+  for (let i = 0; i < 13; i++) exState[i].done = true;
+  updateProgress();
+  renderWarmupStepper();
+}
+
+function toggleWuDetail() {
+  const panel = document.getElementById('wuDetail');
+  if (panel) {
+    warmupDetailOpen = !warmupDetailOpen;
+    panel.classList.toggle('open', warmupDetailOpen);
+  }
+}
+
 function renderExercises() {
   const list = document.getElementById('exerciseList');
   let html = '';
-  let lastType = '';
 
+  // Warm-up stepper section
+  html += `<div class="wu-stepper">
+    <div class="wu-header">
+      <div class="wu-header-left">
+        <span>&#x1f1ef;&#x1f1f5;</span>
+        <span class="wu-header-title">Radio Taiso Warm-Up</span>
+      </div>
+      <span class="wu-counter" id="wuCounter">${exState.slice(0,13).filter(e=>e.done).length} / 13</span>
+    </div>
+    <div id="warmupStepper"></div>
+  </div>`;
+
+  // PT divider
+  html += '<div class="section-divider divider-pt">&#x1F3CB;&#xFE0F; PT Exercises</div>';
+
+  // PT exercises only (indices 13+)
   allToday.forEach((ex, i) => {
-    // Section dividers
-    if (ex.type !== lastType) {
-      if (ex.type === 'warmup') {
-        html += '<div class="section-divider divider-warmup">&#x1f1ef;&#x1f1f5; Radio Taiso Warm-Up</div>';
-      } else {
-        html += '<div class="section-divider divider-pt">&#x1F3CB;&#xFE0F; PT Exercises</div>';
-      }
-      lastType = ex.type;
-    }
+    if (ex.type === 'warmup') return;
 
-    if (ex.type === 'warmup') {
-      html += `
-      <div style="border-bottom:1px solid rgba(255,255,255,0.05)">
-        <div class="exercise-row ${exState[i].done?'completed':''}" id="exRow${i}" style="border-bottom:none">
-          <div class="ex-illus ex-illus-warmup">${RT_SVG[ex.svgIdx]}</div>
-          <div class="ex-mid">
-            <div class="ex-top-row">
-              <button class="ex-check ${exState[i].done?'checked':''}" onclick="toggle(${i})" id="exCheck${i}">&check;</button>
-              <span class="ex-name">${ex.name}</span>
-            </div>
-            <div class="ex-meta" style="color:var(--pink);opacity:0.7">${ex.jp}</div>
-            <div class="ex-note">${ex.desc}</div>
-            <div class="ex-links">
-              <span class="ex-category cat-warmup">Warm-Up</span>
-              <button class="ex-howto-btn ex-howto-btn-warmup" onclick="toggleDetail(${i})">&#x2139;&#xFE0F; How To</button>
-            </div>
+    const ci = CAT_LABELS[ex.cat];
+    const svg = PT_SVG[ex.svg] || '';
+    html += `
+    <div style="border-bottom:1px solid rgba(255,255,255,0.05)">
+      <div class="exercise-row ${exState[i].done?'completed':''}" id="exRow${i}" style="border-bottom:none">
+        <div class="ex-illus ex-illus-${ex.cat}">${svg}</div>
+        <div class="ex-mid">
+          <div class="ex-top-row">
+            <button class="ex-check ${exState[i].done?'checked':''}" onclick="toggle(${i})" id="exCheck${i}">&check;</button>
+            <span class="ex-name">${ex.name}</span>
           </div>
-          <button class="ex-flag ${exState[i].flagged?'flagged':''}" onclick="openPainModal(${i})" id="exFlag${i}">&#x1F6A9;</button>
-        </div>
-        <div class="ex-detail-panel" id="exDetail${i}">
-          <div class="ex-detail-illus">${RT_SVG[ex.svgIdx]}</div>
-          <div class="ex-detail-section">
-            <div class="ex-detail-label">How to perform</div>
-            <div class="ex-detail-text">${ex.howto}</div>
-          </div>
-          <div class="ex-detail-section">
-            <div class="ex-detail-label">Common mistakes</div>
-            <div class="ex-detail-text">${ex.mistakes}</div>
-          </div>
-          <div class="ex-detail-section">
-            <div class="ex-detail-label">Muscles targeted</div>
-            <div class="ex-detail-muscles">${ex.muscles.map(m=>'<span class="ex-muscle-tag">'+m+'</span>').join('')}</div>
+          <div class="ex-meta">${ex.reps} reps &times; ${ex.sets} sets</div>
+          <div class="ex-note">${ex.note}</div>
+          <div class="ex-links">
+            <span class="ex-category ${ci.cls}">${ci.text}</span>
+            <button class="ex-howto-btn ex-howto-btn-pt" onclick="toggleDetail(${i})">&#x2139;&#xFE0F; How To</button>
           </div>
         </div>
-      </div>`;
-    } else {
-      const ci = CAT_LABELS[ex.cat];
-      const svg = PT_SVG[ex.svg] || '';
-      html += `
-      <div style="border-bottom:1px solid rgba(255,255,255,0.05)">
-        <div class="exercise-row ${exState[i].done?'completed':''}" id="exRow${i}" style="border-bottom:none">
-          <div class="ex-illus ex-illus-${ex.cat}">${svg}</div>
-          <div class="ex-mid">
-            <div class="ex-top-row">
-              <button class="ex-check ${exState[i].done?'checked':''}" onclick="toggle(${i})" id="exCheck${i}">&check;</button>
-              <span class="ex-name">${ex.name}</span>
-            </div>
-            <div class="ex-meta">${ex.reps} reps &times; ${ex.sets} sets</div>
-            <div class="ex-note">${ex.note}</div>
-            <div class="ex-links">
-              <span class="ex-category ${ci.cls}">${ci.text}</span>
-              <button class="ex-howto-btn ex-howto-btn-pt" onclick="toggleDetail(${i})">&#x2139;&#xFE0F; How To</button>
-            </div>
-          </div>
-          <button class="ex-flag ${exState[i].flagged?'flagged':''}" onclick="openPainModal(${i})" id="exFlag${i}">&#x1F6A9;</button>
+        <button class="ex-flag ${exState[i].flagged?'flagged':''}" onclick="openPainModal(${i})" id="exFlag${i}">&#x1F6A9;</button>
+      </div>
+      <div class="ex-detail-panel" id="exDetail${i}">
+        <div class="ex-detail-illus">${svg}</div>
+        <div class="ex-detail-section">
+          <div class="ex-detail-label">How to perform</div>
+          <div class="ex-detail-text">${ex.howto}</div>
         </div>
-        <div class="ex-detail-panel" id="exDetail${i}">
-          <div class="ex-detail-illus">${svg}</div>
-          <div class="ex-detail-section">
-            <div class="ex-detail-label">How to perform</div>
-            <div class="ex-detail-text">${ex.howto}</div>
-          </div>
-          <div class="ex-detail-section">
-            <div class="ex-detail-label">Common mistakes</div>
-            <div class="ex-detail-text">${ex.mistakes}</div>
-          </div>
-          <div class="ex-detail-section">
-            <div class="ex-detail-label">Muscles targeted</div>
-            <div class="ex-detail-muscles">${ex.muscles.map(m=>'<span class="ex-muscle-tag">'+m+'</span>').join('')}</div>
-          </div>
+        <div class="ex-detail-section">
+          <div class="ex-detail-label">Common mistakes</div>
+          <div class="ex-detail-text">${ex.mistakes}</div>
         </div>
-      </div>`;
-    }
+        <div class="ex-detail-section">
+          <div class="ex-detail-label">Muscles targeted</div>
+          <div class="ex-detail-muscles">${ex.muscles.map(m=>'<span class="ex-muscle-tag">'+m+'</span>').join('')}</div>
+        </div>
+      </div>
+    </div>`;
   });
   list.innerHTML = html;
+  renderWarmupStepper();
   updateProgress();
 }
 
@@ -767,6 +908,8 @@ function updateProgress() {
   const done = exState.filter(e=>e.done).length;
   const total = allToday.length;
   document.getElementById('progressText').textContent = done+' / '+total;
+  const wuCounter = document.getElementById('wuCounter');
+  if (wuCounter) wuCounter.textContent = exState.slice(0,13).filter(e=>e.done).length + ' / 13';
   document.getElementById('progressFill').style.width = (done/total*100)+'%';
 }
 
